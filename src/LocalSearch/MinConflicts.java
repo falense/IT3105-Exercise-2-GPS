@@ -17,8 +17,6 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
 				sm.optimizeConflictedVariable(var);
 				
 			}
-		// TODO Auto-generated method stub
-		
 	}
 
 }
