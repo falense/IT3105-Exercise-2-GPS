@@ -1,5 +1,71 @@
 package LocalSearch;
 
-public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
+import java.util.ArrayList;
 
+import States.AbstractState;
+
+public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
+	
+	private double MaxTemprature;
+	private double DeltaTemperature;
+	private double Temperature;
+	private int counter = 0;
+	private double targetScore;
+	private double currentScore;
+	private int numberNeighbours;
+	
+	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore){
+		this.DeltaTemperature = DeltaTemprature;
+		this.numberNeighbours = numberNeighbours;
+		this.MaxTemprature = MaxTemprature;
+		this.targetScore = targetScore;
+	}
+	
+	
+	public AbstractState solve(){
+		Temperature = MaxTemprature;
+		currentScore = manager.evaluateCurrentState();
+		//AbstractState currentState = manager.getState();
+		
+		while (counter < 10000 && currentScore < targetScore){
+			
+			AbstractState tempState = null;
+			AbstractState bestState = null;
+			
+			ArrayList<AbstractState> newStates= new ArrayList<AbstractState>();
+			double tempMaxScore = 0;
+			double tempScore = 0;
+			
+			for (int i = 0 ; i < numberNeighbours ; i++){
+				tempState = manager.generateNeighbourState();
+				newStates.add(tempState);
+				tempScore = manager.evaluate(tempState);	
+				if (tempMaxScore==0 || tempMaxScore < tempScore){
+					tempMaxScore = tempScore;
+					bestState = tempState;
+				}
+				
+			}
+			
+			double q = (tempMaxScore-currentScore)/(currentScore);
+			double p = Math.min(1, 
+									Math.pow(2.71828182846, 
+											(-q/Temperature)
+											));
+			double x = Math.random();
+			
+			if (x>p){
+				manager.setState(bestState);
+			} else {
+				manager.setState(newStates.get((int)(Math.random()*numberNeighbours)));
+			}
+			
+			Temperature -= DeltaTemperature;
+			counter++;
+	
+		}
+			
+		return manager.getState();
+	}
+	
 }
