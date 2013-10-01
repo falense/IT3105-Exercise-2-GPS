@@ -54,7 +54,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 											));
 			double x = Math.random();
 			
-			if (x>p){
+			if ( x>p ){
 				manager.setState(bestState);
 			} else {
 				manager.setState(newStates.get((int)(Math.random()*numberNeighbours)));
@@ -62,6 +62,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			
 			Temperature -= DeltaTemperature;
 			counter++;
+			currentScore = manager.evaluateCurrentState();
 	
 		}
 			
