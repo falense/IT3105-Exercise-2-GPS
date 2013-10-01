@@ -1,5 +1,9 @@
 package States;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 
 class Node{
@@ -33,9 +37,42 @@ class Node{
 public class Graph extends AbstractState{
 	private LinkedList<Node> nodes = new LinkedList<Node>();
 	private int K;
-	public Graph(int K) {
-		// TODO Auto-generated constructor stub
-		this.K = K;
+	
+	private void loadGraph(String filename){
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.err.println("File not found: " + filename);
+		}
+		String line = null;
+		try {
+			int row = 0;
+			int nodeCount = 0;
+			int edgeCount = 0;
+			
+			while ((line = reader.readLine()) != null) {
+				String substrings[] = line.split(" ");
+				if (row == 0){
+					nodeCount = Integer.parseInt(substrings[0]);
+					edgeCount = Integer.parseInt(substrings[1]);
+				}
+				else if (row > 0 && row <= nodeCount){
+					
+				}
+				else{
+					
+				}
+				
+				row++;
+			}
+		} catch (IOException e) {
+			System.err.println("Reading from graph file failed");
+		}
+	}
+	public Graph(String filename) {
+		loadGraph(filename);
 	}
 	
 	

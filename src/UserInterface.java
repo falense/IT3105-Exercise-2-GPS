@@ -9,4 +9,8 @@ public class UserInterface {
 		MinConflicts mc = new MinConflicts(man);
 		mc.solve();
 	}
+	public static void main(String[] args) {
+		UserInterface s = new UserInterface();
+		s.RunMCTest();
+	}
 }

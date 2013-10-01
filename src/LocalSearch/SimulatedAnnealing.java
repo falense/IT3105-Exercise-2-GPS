@@ -15,4 +15,5 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		
 	}
 
+	
 }
