@@ -1,5 +1,5 @@
 package States;
 
-public class ChessBoard  {
+public class ChessBoard extends AbstractState  {
 
 }
