@@ -40,6 +40,23 @@ public abstract class LocalStateManager {
 		int rindex = new Random().nextInt(minConfValues.size());	
 		
 		state.setValue(var, minConfValues.get(rindex));
+	}
+	
+	
+	
+	
+	public double evaluate(AbstractState state){
+		//todo
+		return 0;
+	}
+	
+	public AbstractState generateNeighbourState(){
+		//todo
+		return null;
+	}
+
+	public void setState(AbstractState bestState) {
+		this.state = bestState;
 		
 	}
 
