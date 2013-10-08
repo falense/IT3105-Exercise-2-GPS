@@ -10,9 +10,21 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	}
 
 	@Override
-	void solve() {
+	public	void solve() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getStepsToSolve() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getSolutionNumConflicts() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

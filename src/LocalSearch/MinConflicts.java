@@ -3,22 +3,29 @@ package LocalSearch;
 import StateManagers.LocalStateManager;
 
 public class MinConflicts extends ConstraintBasedLocalSearch {
-
+	public static final String className = MinConflicts.class.getName();
 	public MinConflicts(LocalStateManager sm) {
 		super(sm);
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	private int steps = 0;
 	@Override
 	public
 	void solve() {
-			int c = 0;
+			steps = 0;
 			while (!sm.done()){
 				int var = sm.getConflictedVariable();
 				sm.optimizeConflictedVariable(var);
-				c++;
+				steps++;
 			}
-			System.out.println("Completed in " + c + " steps");
+			//System.out.println("Completed in " + steps + " steps");
 	}
-
+	
+	public int getStepsToSolve(){
+		return steps;
+	}
+	public int getSolutionNumConflicts(){
+		return 0;
+	}
 }

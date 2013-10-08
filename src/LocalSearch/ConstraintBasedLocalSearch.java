@@ -8,5 +8,7 @@ public abstract class ConstraintBasedLocalSearch {
 		// TODO Auto-generated constructor stub
 		this.sm = sm;
 	}
-	abstract void solve();
+	public abstract void solve();
+	public abstract int getStepsToSolve();
+	public abstract int getSolutionNumConflicts();
 }

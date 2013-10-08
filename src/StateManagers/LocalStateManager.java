@@ -7,6 +7,9 @@ import States.AbstractState;
 
 public abstract class LocalStateManager {
 	AbstractState state;
+
+	public abstract String getName();
+	
 	public LocalStateManager(AbstractState state) {
 		this.state = state;
 	}
@@ -33,7 +36,7 @@ public abstract class LocalStateManager {
 				minConfValues.add(value);
 			}
 		}
-		System.out.println("Variable " + var + " has minConflicts "  + minConflicts + "(" + minConfValues.size() + ")");
+		//System.out.println("Variable " + var + " has minConflicts "  + minConflicts + "(" + minConfValues.size() + ")");
 		int rindex = new Random().nextInt(minConfValues.size());	
 		
 		state.setValue(var, minConfValues.get(rindex));
@@ -43,4 +46,5 @@ public abstract class LocalStateManager {
 	public boolean done(){
 		return state.isOptimal();
 	}
+	public abstract LocalStateManager copy();
 }

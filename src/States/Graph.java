@@ -57,7 +57,6 @@ public class Graph extends AbstractState{
 		try {
 			reader = new BufferedReader(new FileReader(filename));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.err.println("File not found: " + filename);
 		}
 		String line = null;
@@ -73,7 +72,7 @@ public class Graph extends AbstractState{
 					nodeCount = Integer.parseInt(substrings[0]);
 					edgeCount = Integer.parseInt(substrings[1]);
 					nodeList = new Node[nodeCount];
-					System.out.println(className + ": nodeCount " + nodeCount + " edgeCount " + edgeCount);
+					//System.out.println(className + ": nodeCount " + nodeCount + " edgeCount " + edgeCount);
 				}
 				else if (row > 0 && row <= nodeCount){
 					int nodeIndex = Integer.parseInt(substrings[0]);
