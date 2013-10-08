@@ -4,10 +4,13 @@ import StateManagers.LocalStateManager;
 
 public abstract class ConstraintBasedLocalSearch {
 	protected LocalStateManager sm;
-	public ConstraintBasedLocalSearch(LocalStateManager sm) {
-		// TODO Auto-generated constructor stub
-		this.sm = sm;
+	public ConstraintBasedLocalSearch() {
 	}
+	public void setStateManager(LocalStateManager sm){
+		this.sm = sm;
+		clear();
+	}
+	public abstract void clear();
 	public abstract void solve();
 	public abstract int getStepsToSolve();
 	public abstract int getSolutionNumConflicts();

@@ -4,9 +4,8 @@ import StateManagers.LocalStateManager;
 
 public class MinConflicts extends ConstraintBasedLocalSearch {
 	public static final String className = MinConflicts.class.getName();
-	public MinConflicts(LocalStateManager sm) {
-		super(sm);
-		// TODO Auto-generated constructor stub
+	public MinConflicts() {
+		super();
 	}
 	
 	private int steps = 0;
@@ -26,6 +25,11 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
 		return steps;
 	}
 	public int getSolutionNumConflicts(){
-		return 0;
+		return sm.getState().getNumberOfConflicts();
+	}
+
+	@Override
+	public void clear() {
+		steps = 0;
 	}
 }

@@ -4,8 +4,8 @@ import StateManagers.LocalStateManager;
 
 public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 
-	public SimulatedAnnealing(LocalStateManager state) {
-		super(state);
+	public SimulatedAnnealing() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,6 +25,12 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	public int getSolutionNumConflicts() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

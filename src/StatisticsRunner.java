@@ -15,7 +15,12 @@ public class StatisticsRunner {
 		problems[2] = new GraphColorManager("graph-color-3.txt");
 		return problems;
 	}
-	private void testSolver(LocalStateManager sm){
+	private ConstraintBasedLocalSearch[] getSolvers(){
+		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[1];
+		solvers[0] = new MinConflicts();
+		return solvers;
+	}
+	private void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm){
 		int totalStepCount = 0;
 		int totalConflictsInSolutions = 0;
 		double []stepsToSolve = new double[maxRuns];
@@ -23,13 +28,12 @@ public class StatisticsRunner {
 		double minStepCount = Integer.MAX_VALUE;
 		double minSolutionConflicts = Integer.MAX_VALUE;
 		LocalStateManager g = null;
-		ConstraintBasedLocalSearch mc;
 		for (int i = 0; i < maxRuns; i++){
 			g =  sm.copy();
-			mc = new MinConflicts(g);
-			mc.solve();
-			solutionConflicts[i] = mc.getSolutionNumConflicts();
-			stepsToSolve[i] = mc.getStepsToSolve();
+			solver.setStateManager(g);
+			solver.solve();
+			solutionConflicts[i] = solver.getSolutionNumConflicts();
+			stepsToSolve[i] = solver.getStepsToSolve();
 			totalStepCount += stepsToSolve[i];
 			totalConflictsInSolutions += solutionConflicts[i];
 			if (solutionConflicts[i] < minSolutionConflicts){
@@ -64,14 +68,16 @@ public class StatisticsRunner {
 		System.out.println("\t MinConflictsInSolution " + minSolutionConflicts ); 
 		
 	}
-	public void testMinConflicts(){
-		for (LocalStateManager sm: getProblems()){
-			testSolver(sm);
+	public void testSystem(){
+		for (ConstraintBasedLocalSearch solver: getSolvers()){
+			for (LocalStateManager sm: getProblems()){
+				testSolver(solver,sm);
+			}
 		}
 	}
 	public static void main(String[] args) {
 		StatisticsRunner s = new StatisticsRunner();
-		s.testMinConflicts();
+		s.testSystem();
 	}
 
 }

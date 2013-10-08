@@ -36,7 +36,7 @@ public abstract class LocalStateManager {
 				minConfValues.add(value);
 			}
 		}
-		//System.out.println("Variable " + var + " has minConflicts "  + minConflicts + "(" + minConfValues.size() + ")");
+		//System.out.println("Variable " + var + " has minConflicts "  + minConflicts + "(" + minConfValues.size() + ") Total number of conflicts " + state.getNumberOfConflicts());
 		int rindex = new Random().nextInt(minConfValues.size());	
 		
 		state.setValue(var, minConfValues.get(rindex));
@@ -45,6 +45,9 @@ public abstract class LocalStateManager {
 
 	public boolean done(){
 		return state.isOptimal();
+	}
+	public AbstractState getState(){
+		return state;
 	}
 	public abstract LocalStateManager copy();
 }

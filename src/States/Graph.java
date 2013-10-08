@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Random;
 
 class Node{
 	private LinkedList<Node> neighbours = new LinkedList<Node>();
@@ -41,9 +42,9 @@ class Node{
 	public void addNeighbour(final Node n){
 		neighbours.add(n);
 	}
-	public Node(double x, double y) {
+	public Node(double x, double y, int color) {
 		setPosition( x,y);
-		color = 0;
+		setColor(color);
 	}
 }
 
@@ -78,7 +79,7 @@ public class Graph extends AbstractState{
 					int nodeIndex = Integer.parseInt(substrings[0]);
 					double xcoord = Double.parseDouble(substrings[1]);
 					double ycoord = Double.parseDouble(substrings[2]);
-					nodeList[nodeIndex] = new Node(xcoord,ycoord);
+					nodeList[nodeIndex] = new Node(xcoord,ycoord,new Random().nextInt(K));
 				}
 				else{
 					int nodeIndex1 = Integer.parseInt(substrings[0]);
