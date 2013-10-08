@@ -1,12 +1,12 @@
 package StateManagers;
 
-import States.Graph;
+import States.GraphState;
 
 public class GraphColorManager extends LocalStateManager {
 	private String graphfile;
 	public static final String className = GraphColorManager.class.getName();
 	public GraphColorManager(String graphfile) {
-		super(new Graph(graphfile));
+		super(new GraphState(graphfile));
 		this.graphfile = graphfile;
 	}
 	

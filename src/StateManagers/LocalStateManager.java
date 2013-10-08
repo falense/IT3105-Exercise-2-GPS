@@ -61,7 +61,9 @@ public abstract class LocalStateManager {
 	}
 
 	public boolean done(){
-		return state.isOptimal();
+		boolean r = state.isOptimal();
+		//if (r == true) state.display();
+		return r;
 	}
 	public AbstractState getState(){
 		return state;

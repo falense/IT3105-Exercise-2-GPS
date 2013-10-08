@@ -1,6 +1,5 @@
 package LocalSearch;
 
-import StateManagers.LocalStateManager;
 
 public class MinConflicts extends ConstraintBasedLocalSearch {
 	public static final String className = MinConflicts.class.getName();
@@ -16,6 +15,12 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
 				int var = sm.getConflictedVariable();
 				sm.optimizeConflictedVariable(var);
 				steps++;
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			//System.out.println("Completed in " + steps + " steps");
 	}

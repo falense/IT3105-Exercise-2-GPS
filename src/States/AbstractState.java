@@ -8,7 +8,7 @@ public abstract class AbstractState {
 	public abstract LinkedList<Integer> getPossibleValues();
 	public abstract int getValue(int var);
 	public abstract void setValue(int var, int value);
-
+	public abstract void display();
 	public boolean isInvolvedInConflict(int var){
 		if (getNumberOfConflicts(var) > 0)
 			return true;
