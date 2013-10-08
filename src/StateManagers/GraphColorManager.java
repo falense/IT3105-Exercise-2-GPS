@@ -6,8 +6,7 @@ import States.Graph;
 public class GraphColorManager extends LocalStateManager {
 
 	public GraphColorManager() {
-		super(new Graph("filename"));
-		// TODO Auto-generated constructor stub
+		super(new Graph("graph-color-3.txt"));
 	}
 
 }

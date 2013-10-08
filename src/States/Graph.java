@@ -9,6 +9,7 @@ import java.util.LinkedList;
 class Node{
 	private LinkedList<Node> neighbours = new LinkedList<Node>();
 	private int color;
+	private double x,y;
 	public boolean hasConflicts(){
 		for (Node n: neighbours){
 			if (n.color == color){
@@ -32,11 +33,24 @@ class Node{
 	public int getColor() {
 		return this.color;
 	}
+	private void setPosition(double x, double y){
+
+		this.x = x;
+		this.y = y;
+	}
+	public void addNeighbour(final Node n){
+		neighbours.add(n);
+	}
+	public Node(double x, double y) {
+		setPosition( x,y);
+		color = 0;
+	}
 }
 
 public class Graph extends AbstractState{
-	private LinkedList<Node> nodes = new LinkedList<Node>();
-	private int K;
+	private Node nodes[] = null;
+	private int K = 4;
+	private final String className = Graph.class.getName();
 	
 	private void loadGraph(String filename){
 		BufferedReader reader = null;
@@ -47,6 +61,7 @@ public class Graph extends AbstractState{
 			System.err.println("File not found: " + filename);
 		}
 		String line = null;
+		Node nodeList[] = null;
 		try {
 			int row = 0;
 			int nodeCount = 0;
@@ -57,16 +72,27 @@ public class Graph extends AbstractState{
 				if (row == 0){
 					nodeCount = Integer.parseInt(substrings[0]);
 					edgeCount = Integer.parseInt(substrings[1]);
+					nodeList = new Node[nodeCount];
+					System.out.println(className + ": nodeCount " + nodeCount + " edgeCount " + edgeCount);
 				}
 				else if (row > 0 && row <= nodeCount){
-					
+					int nodeIndex = Integer.parseInt(substrings[0]);
+					double xcoord = Double.parseDouble(substrings[1]);
+					double ycoord = Double.parseDouble(substrings[2]);
+					nodeList[nodeIndex] = new Node(xcoord,ycoord);
 				}
 				else{
-					
+					int nodeIndex1 = Integer.parseInt(substrings[0]);
+					int nodeIndex2 = Integer.parseInt(substrings[1]);
+					Node n1 = nodeList[nodeIndex1];
+					Node n2 = nodeList[nodeIndex2];
+					n1.addNeighbour(n2);
+					n2.addNeighbour(n1);
 				}
 				
 				row++;
 			}
+			nodes = nodeList;
 		} catch (IOException e) {
 			System.err.println("Reading from graph file failed");
 		}
@@ -79,15 +105,18 @@ public class Graph extends AbstractState{
 	@Override
 	public LinkedList<Integer> getVars() {
 		LinkedList<Integer> vars = new LinkedList<Integer>();
-		for (int i = 0; i < nodes.size(); i++)
+		for (int i = 0; i < nodes.length; i++)
 			vars.add(i);
 		return vars;
 	}
 
 	@Override
 	public int getNumberOfConflicts(int var) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (var >= 0 && var < nodes.length)
+			return nodes[var].getNumberOfConflicts();
+		else{
+			throw new IndexOutOfBoundsException(className + "GetValue index out of bounds");
+		}
 	}
 
 	@Override
@@ -99,26 +128,22 @@ public class Graph extends AbstractState{
 	}
 
 	@Override
-	public void setVariable(int var, int value) {
-		// TODO Auto-generated method stub
-		if (var > 0 && var < nodes.size()){
-			Node n = nodes.get(var);
-			n.setColor(value);
+	public int getValue(int var) {
+		if (var >= 0 && var < nodes.length)
+			return 0;
+		else{
+			throw new IndexOutOfBoundsException(className + "GetValue index out of bounds");
+		}
+	}
+	@Override
+	public void setValue(int var, int value) {
+		if (var >= 0 && var < nodes.length)
+			nodes[var].setColor(value);
+		else{
+			throw new IndexOutOfBoundsException(className + "SetValue index out of bounds");
 		}
 	}
 
-	@Override
-	public int testNumberOfConflicts(int var, Integer value) {
-		// TODO Auto-generated method stub
-		if (var > 0 && var < nodes.size()){
-			Node n = nodes.get(var);
-			int oldcolor =  n.getColor();
-			n.setColor(var);
-			int conflicts = n.getNumberOfConflicts();
-			n.setColor(oldcolor);
-			return conflicts;
-		}
-		return -1;
-	}
+
 	
 }

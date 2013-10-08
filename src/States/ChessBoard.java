@@ -22,16 +22,22 @@ public class ChessBoard extends AbstractState  {
 		return null;
 	}
 
+
 	@Override
-	public void setVariable(int var, int value) {
+	public int testNumberOfConflicts(int var, int value) {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 
 	@Override
-	public int testNumberOfConflicts(int var, Integer value) {
+	public int getValue(int var) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void setValue(int var, int value) {
+		// TODO Auto-generated method stub
 	}
 
 }

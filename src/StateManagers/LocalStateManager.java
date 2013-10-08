@@ -11,10 +11,8 @@ public abstract class LocalStateManager {
 		this.state = state;
 	}
 	public int getConflictedVariable() {
-		// TODO Auto-generated method stub
-		LinkedList<Integer> vars = state.getVars();
 		LinkedList<Integer> conflicted = new LinkedList<Integer>();
-		for (Integer var: vars){
+		for (Integer var: state.getVars()){
 			if(state.isInvolvedInConflict(var)){
 				conflicted.add(var);
 			}
@@ -23,38 +21,26 @@ public abstract class LocalStateManager {
 		return conflicted.get(rindex);
 	}
 	public void optimizeConflictedVariable(int var) {
-		int minConflicts = -1;
+		int minConflicts = Integer.MAX_VALUE;
 		LinkedList<Integer> minConfValues = new LinkedList<Integer>();
 		for (Integer value: state.getPossibleValues()){
 			int conflicts = state.testNumberOfConflicts(var,value);
-			if (minConflicts == -1 || minConflicts >= conflicts){
+			if (minConflicts >= conflicts){
 				if (minConflicts > conflicts){
-					minConfValues.clear();
-
+					minConfValues = new LinkedList<Integer>(); 
 					minConflicts = conflicts;
 				}
 				minConfValues.add(value);
 			}
 		}
-
+		System.out.println("Variable " + var + " has minConflicts "  + minConflicts + "(" + minConfValues.size() + ")");
 		int rindex = new Random().nextInt(minConfValues.size());	
 		
-		state.setVariable(var, minConfValues.get(rindex));
+		state.setValue(var, minConfValues.get(rindex));
 		
 	}
-	public int getNumberOfConflicts(){
-		int total = 0;
-		for (Integer var: state.getVars()){
-			total += state.getNumberOfConflicts(var);
-		}
-		return total;
-	}
-	public boolean isOptimal() {
-		// TODO Auto-generated method stub
-		if (getNumberOfConflicts() > 0)
-			return false;
-		else
-			return true;
-	}
 
+	public boolean done(){
+		return state.isOptimal();
+	}
 }

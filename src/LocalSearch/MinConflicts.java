@@ -12,11 +12,13 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
 	@Override
 	public
 	void solve() {
-			while (!sm.isOptimal()){
+			int c = 0;
+			while (!sm.done()){
 				int var = sm.getConflictedVariable();
 				sm.optimizeConflictedVariable(var);
-				
+				c++;
 			}
+			System.out.println("Completed in " + c + " steps");
 	}
 
 }
