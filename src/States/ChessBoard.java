@@ -34,7 +34,7 @@ public class ChessBoard extends AbstractState  {
 		return board.length;
 	}
 	
-	private boolean getPiece(int x, int y){
+	public boolean getPiece(int x, int y){	// just used for graphics.
 		return board[x][y];
 	}
 	
