@@ -5,16 +5,20 @@ import java.util.Random;
 
 import States.AbstractState;
 import States.ChessBoard;
+import States.Graph;
 
 public class KQueensManager extends LocalStateManager {
 	private String className = KQueensManager.class.getName();
+	int size;
 	
 	
 
-	public KQueensManager(AbstractState state) {
-		super(state);
+	public KQueensManager(int size) {
+		super(new ChessBoard(size));
+		this.size = size;
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 	
 	
@@ -34,7 +38,7 @@ public class KQueensManager extends LocalStateManager {
 	@Override
 	public LocalStateManager copy() {
 		// TODO Auto-generated method stub
-		return null;
+		return new KQueensManager(size);
 	}
 
 }
