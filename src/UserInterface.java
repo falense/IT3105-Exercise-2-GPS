@@ -8,22 +8,22 @@ public class UserInterface {
 	
 
 	public void RunSAKQTest(){
-		KQueensManager qm = new KQueensManager(16);
-		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0);
+		KQueensManager qm = new KQueensManager(8);
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,20,0.1,0);
 		sa.setStateManager(qm);
 		sa.solve();
 	}
 	
 
 	public void RunSAGCTest(){
-		GraphColorManager man = new GraphColorManager("graph-color-2.txt");
-		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0);
+		GraphColorManager man = new GraphColorManager("graph-color-1.txt");
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,10,0.01,0);
 		sa.setStateManager(man);
 		sa.solve();
 		man.getState().display();
 	}
 	public void RunMCKQTest(){
-		KQueensManager qm = new KQueensManager(8);
+		KQueensManager qm = new KQueensManager(128);
 		MinConflicts kmc = new MinConflicts();
 		kmc.setStateManager(qm);
 		kmc.solve();
@@ -38,14 +38,14 @@ public class UserInterface {
 	
 	public static void main(String[] args) {
 		UserInterface s = new UserInterface();
-		s.RunMCGCTest();
-		s.RunMCKQTest();
-		s.RunSAKQTest();
+		//s.RunMCGCTest();
+		//s.RunMCKQTest();
+		//s.RunSAKQTest();
 		s.RunSAGCTest();
 		
 		
 		
-		System.out.println("Test");
+		//System.out.println("Test");
 		
 	}
 }

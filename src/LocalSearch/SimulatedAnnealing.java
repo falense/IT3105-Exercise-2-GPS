@@ -52,13 +52,13 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
 					tempMaxScore = tempScore;
 					bestState = tempState;
-					System.out.println("Best Neighbour Score = " + (-tempMaxScore));
+					
 				}
 				
 			}
 			
 			
-			
+			System.out.println("Best Neighbour Score = " + (-tempMaxScore));
 			double q = (tempMaxScore-currentScore)/(-currentScore);
 			
 			//System.out.println("Value for q = " +q);
@@ -72,13 +72,13 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 									Math.pow(2.71828182846, exponent	));				
 											
 											
-			//System.out.println("Value for p = " +p);
+			System.out.println("Value for p = " +p);
 			
 			double x = Math.random();
 			
-			//System.out.println("Value for x = " +x);
+			System.out.println("Value for x = " +x);
 			
-			if ( x>p ){
+			if ( x > p ){
 				sm.setState(bestState);
 				System.out.println("Exploit!");
 			} else {
@@ -86,17 +86,18 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				System.out.println("Explore!");
 			}
 			
+			
 			//linear
-			Temperature = Math.max(Temperature-DeltaTemperature, 0.01);
+			//Temperature = Math.max(Temperature-DeltaTemperature, 0.1);
 			
 			//rate of decay
-			//Temperature *= (1-DeltaTemperature);
+			Temperature = Math.max(Temperature*(1-DeltaTemperature), 0.1); ;
 			
 			stepsToSolve++;
 			currentScore = -sm.getState().getNumberOfConflicts();
 			System.out.println("Round number: " +stepsToSolve);
 			System.out.println("Current conflicts: " + (-currentScore));
-			System.out.println("Current Temperature: " + Temperature);
+			
 	
 		}
 	} 
