@@ -18,22 +18,9 @@ public class KQueensManager extends LocalStateManager {
 	
 	
 	
-	public double evaluate(AbstractState state){ //Should become getNumberOfConflicts
-		/*
-		double score = 0;
-		
-		LinkedList<Integer> variables = state.getVars();
-		LinkedList<Integer> values = state.getPossibleValues();
-		
-		for (int i : variables){
-			int x = state.getValue(i);
-			
-		}
-		*/
-		
-		
-		return state.getNumberOfConflicts();
-		
+	public double evaluate(AbstractState state){
+		int size = state.getVars().size(); 	
+		return (size*size)-state.getNumberOfConflicts();
 	}
 	
 

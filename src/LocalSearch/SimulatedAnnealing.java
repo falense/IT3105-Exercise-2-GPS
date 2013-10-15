@@ -85,8 +85,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		stepsToSolve = 0;
 	}
 
 	
