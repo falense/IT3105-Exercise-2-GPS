@@ -18,6 +18,8 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	private double currentScore;
 	private int numberNeighbours;
 	
+	//example SimulatedAnnealing(20,100,2,64);
+	
 	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore){
 		this.DeltaTemperature = DeltaTemprature;
 		this.numberNeighbours = numberNeighbours;
@@ -69,8 +71,6 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			currentScore = sm.evaluate(sm.getState());
 	
 		}
-			
-		//return sm.getState();  *^***** THIS NEEDS FIXING ******
 	} 
 	
 	@Override
