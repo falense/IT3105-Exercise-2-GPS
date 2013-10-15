@@ -111,4 +111,10 @@ public class ChessBoard extends AbstractState  {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public void display() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -6,6 +6,7 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,6 +20,7 @@ import org.apache.commons.collections15.Transformer;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.util.Pair;
@@ -58,6 +60,9 @@ class Node{
 		this.x = x;
 		this.y = y;
 	}
+	public Point2D getPosition(){
+		return new Point2D.Double(x*20,y*20);
+	}
 	public void addNeighbour(final Node n){
 		neighbours.add(n);
 	}
@@ -91,9 +96,17 @@ class GUI{
           	 }
         }
 
+
+        Transformer<Node, Point2D> locationTransformer = 
+		                new Transformer<Node, Point2D>() {
+			@Override
+			public Point2D transform(Node n) {
+			return n.getPosition();
+			}
+		};  
         // Layout implements the graph drawing logic
-        Layout<Node,  Pair<Node>> layout = new CircleLayout<Node,  Pair<Node>>(g);
-        layout.setSize(new Dimension(1000,1000));
+        Layout<Node,  Pair<Node>> layout = new StaticLayout<Node,  Pair<Node>>(g,locationTransformer);
+        layout.setSize(new Dimension((int)(s.getMaxXCoord()+1),(int)(s.getMaxYCoord()+1)));
         // VisualizationServer actually displays the graph
         BasicVisualizationServer<Node, Pair<Node>> vv = new BasicVisualizationServer<Node, Pair<Node>>(layout);
         vv.setPreferredSize(new Dimension(1000,1000)); //Sets the viewing area size
@@ -146,6 +159,7 @@ class GUI{
                 return circle;
             }
         };
+        
         vv.getRenderContext().setVertexFillPaintTransformer(vertexColor);
         vv.getRenderContext().setVertexShapeTransformer(vertexSize);
         vv.getRenderContext().setEdgeDrawPaintTransformer(edgeColor);
@@ -163,11 +177,20 @@ public class GraphState extends AbstractState{
 	private Node nodes[] = null;
 	private int K = 4;
 	private final String className = GraphState.class.getName();
+
+	private double xcoordmax = 0;
+	private double ycoordmax = 0;
 	public Node[] getNodes(){
 		return nodes;
 	}
 	public void display(){
 		new GUI(this);
+	}
+	public double getMaxXCoord(){
+		return xcoordmax;
+	}
+	public double getMaxYCoord(){
+		return ycoordmax;
 	}
 	private void loadGraph(String filename){
 		BufferedReader reader = null;
@@ -195,6 +218,12 @@ public class GraphState extends AbstractState{
 					int nodeIndex = Integer.parseInt(substrings[0]);
 					double xcoord = Double.parseDouble(substrings[1]);
 					double ycoord = Double.parseDouble(substrings[2]);
+					if (xcoord > xcoordmax){
+						xcoordmax = xcoord;
+					}
+					if (ycoord > ycoordmax){
+						ycoordmax = ycoord;
+					}
 					nodeList[nodeIndex] = new Node(row-1,xcoord,ycoord,new Random().nextInt(K));
 				}
 				else{
