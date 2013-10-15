@@ -102,8 +102,6 @@ class Node{
 	}
 }
 class GUI{
-	
-	
     public GUI(final GraphState s) {
     	drawGraph(s);
     	
