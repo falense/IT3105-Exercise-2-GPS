@@ -5,10 +5,11 @@ import StateManagers.GraphColorManager;
 public class UserInterface {
 	
 	public void RunMCTest(){
-		GraphColorManager man = new GraphColorManager("graph-color-1.txt");
+		GraphColorManager man = new GraphColorManager("graph-color-3.txt");
 		MinConflicts mc = new MinConflicts();
 		mc.setStateManager(man);
 		mc.solve();
+		man.getState().display();
 	}
 	public static void main(String[] args) {
 		UserInterface s = new UserInterface();

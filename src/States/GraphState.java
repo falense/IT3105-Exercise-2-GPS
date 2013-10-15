@@ -61,7 +61,7 @@ class Node{
 		this.y = y;
 	}
 	public Point2D getPosition(){
-		return new Point2D.Double(x*20,y*20);
+		return new Point2D.Double(x,y);
 	}
 	public void addNeighbour(final Node n){
 		neighbours.add(n);
@@ -77,11 +77,29 @@ class Node{
 	public int getID(){
 		return uniqueID;
 	}
+	public void updateCoord(double minX, double minY, double maxX, double maxY){
+		double diffX = maxX - minX;
+		double diffY = maxY - minY;
+		
+		double scaleX = 900.0 / diffX;
+		double scaleY = 900.0 / diffY;
+		
+		double relX = x - minX;
+		double relY = y - minY;
+		
+		x = 50 + relX * scaleX;
+		y = 50 + relY * scaleY;
+	}
 }
 class GUI{
 	
 	
-    public GUI(GraphState s) {
+    public GUI(final GraphState s) {
+    	drawGraph(s);
+    	
+    }
+    private void drawGraph(final GraphState s){
+    	
         // Create a graph with Integer vertices and String edges
         Graph<Node,  Pair<Node>> g = new SparseGraph<Node, Pair<Node>>();
         Node []nodes = s.getNodes();
@@ -101,12 +119,12 @@ class GUI{
 		                new Transformer<Node, Point2D>() {
 			@Override
 			public Point2D transform(Node n) {
-			return n.getPosition();
+				Point2D p = n.getPosition();
+				return p;
 			}
 		};  
         // Layout implements the graph drawing logic
         Layout<Node,  Pair<Node>> layout = new StaticLayout<Node,  Pair<Node>>(g,locationTransformer);
-        layout.setSize(new Dimension((int)(s.getMaxXCoord()+1),(int)(s.getMaxYCoord()+1)));
         // VisualizationServer actually displays the graph
         BasicVisualizationServer<Node, Pair<Node>> vv = new BasicVisualizationServer<Node, Pair<Node>>(layout);
         vv.setPreferredSize(new Dimension(1000,1000)); //Sets the viewing area size
@@ -165,7 +183,7 @@ class GUI{
         vv.getRenderContext().setEdgeDrawPaintTransformer(edgeColor);
         vv.getRenderContext().setEdgeStrokeTransformer(edgeStroke);
 
-        JFrame frame = new JFrame("Simple Graph View");
+        JFrame frame = new JFrame("Graph view");
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(vv); 
         frame.pack();
@@ -178,19 +196,11 @@ public class GraphState extends AbstractState{
 	private int K = 4;
 	private final String className = GraphState.class.getName();
 
-	private double xcoordmax = 0;
-	private double ycoordmax = 0;
 	public Node[] getNodes(){
 		return nodes;
 	}
 	public void display(){
 		new GUI(this);
-	}
-	public double getMaxXCoord(){
-		return xcoordmax;
-	}
-	public double getMaxYCoord(){
-		return ycoordmax;
 	}
 	private void loadGraph(String filename){
 		BufferedReader reader = null;
@@ -206,6 +216,8 @@ public class GraphState extends AbstractState{
 			int nodeCount = 0;
 			int edgeCount = 0;
 			
+			double minX = 1000, minY = 1000, maxX = -1000, maxY = -1000;
+			
 			while ((line = reader.readLine()) != null) {
 				String substrings[] = line.split(" ");
 				if (row == 0){
@@ -218,11 +230,17 @@ public class GraphState extends AbstractState{
 					int nodeIndex = Integer.parseInt(substrings[0]);
 					double xcoord = Double.parseDouble(substrings[1]);
 					double ycoord = Double.parseDouble(substrings[2]);
-					if (xcoord > xcoordmax){
-						xcoordmax = xcoord;
+					if (xcoord > maxX){
+						maxX = xcoord;
 					}
-					if (ycoord > ycoordmax){
-						ycoordmax = ycoord;
+					if (ycoord > maxY){
+						maxY = ycoord;
+					}
+					if (xcoord < minX){
+						minX = xcoord;
+					}
+					if (ycoord < minY){
+						minY = ycoord;
 					}
 					nodeList[nodeIndex] = new Node(row-1,xcoord,ycoord,new Random().nextInt(K));
 				}
@@ -237,8 +255,11 @@ public class GraphState extends AbstractState{
 				
 				row++;
 			}
+			for (Node n: nodeList){
+				n.updateCoord(minX,minY,maxX,maxY);
+			}
 			nodes = nodeList;
-			new GUI(this);
+			//new GUI(this);
 		} catch (IOException e) {
 			System.err.println("Reading from graph file failed");
 		}
