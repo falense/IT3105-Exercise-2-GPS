@@ -9,7 +9,7 @@ import States.ChessBoard;
 public abstract class LocalStateManager {
 	AbstractState state;
 	public abstract String getName();
-	public abstract double evaluate(AbstractState state);
+	//public abstract double evaluate(AbstractState state);
 	public abstract LocalStateManager copy();
 	
 	public AbstractState generateNeighbourState(){

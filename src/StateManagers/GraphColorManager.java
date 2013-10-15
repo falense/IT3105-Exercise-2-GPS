@@ -21,17 +21,6 @@ public class GraphColorManager extends LocalStateManager {
 		return new GraphColorManager(graphfile);
 	}
 
-	@Override
-	public AbstractState generateNeighbourState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public
-	double evaluate(AbstractState state) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }
