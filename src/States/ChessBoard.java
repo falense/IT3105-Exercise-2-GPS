@@ -12,6 +12,10 @@ public class ChessBoard extends AbstractState  {
 				board[i][j] = false;
 			}
 		}
+		for (int k = 0 ; k < size ; k++){
+			setRandomRow(k);
+		}
+		
 	}
 	
 	public ChessBoard(ChessBoard oldBoard){
@@ -26,35 +30,36 @@ public class ChessBoard extends AbstractState  {
 		}
 	}
 	
-	public int getSize(){
+	private int getSize(){
 		return board.length;
 	}
 	
-	public boolean getPiece(int x, int y){
+	private boolean getPiece(int x, int y){
 		return board[x][y];
 	}
 	
-	
-	public void changePiece(int x, int y){
+	/*
+	private void changePiece(int x, int y){
 		this.board[x][y] = !board[x][y];
 	}
 	
-	public void setTrue(int x, int y){
+	private void setTrue(int x, int y){
 		this.board[x][y] = true;
 	}
 	
-	public void setFalse(int x, int y){
+	private void setFalse(int x, int y){
 		this.board[x][y] = true;
 	}
+	*/
 	
-	public void setRandomRow(int y){
+	private void setRandomRow(int y){
 		for (int x = 0 ; x < board.length ; x++){
 			board[y][x] = false;
 		}
 		board[y][(int) Math.random()*board.length] = true;
 	}
 	
-	public int findConflicts(int x, int y){
+	private int findConflicts(int x, int y){
 		int cons = 0;
 		for (int i = 0 ; i < board.length ; i++){
 			for (int j = 0 ; j < board.length ; j++){
@@ -71,38 +76,45 @@ public class ChessBoard extends AbstractState  {
 	}
 	
 
-	
-	
-	
-
-	@Override
+	@Override	//done
 	public LinkedList<Integer> getVars() { 
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<Integer> vars = new LinkedList<Integer>();
+		for (int i = 0; i < board.length; i++)
+			vars.add(i);
+		return vars;
 	}
 
-	@Override
+	@Override	//done
 	public int getNumberOfConflicts(int var) {
-		// TODO Auto-generated method stub
-		return 0;
+		int x = getValue(var);
+		return findConflicts(var,x);
 	}
 
-	@Override
+	@Override	//done
 	public LinkedList<Integer> getPossibleValues() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<Integer> vars = new LinkedList<Integer>();
+		for (int i = 0; i < board.length; i++)
+			vars.add(i);
+		return vars;
 	}
 
 
-	@Override
+	@Override	//done
 	public int getValue(int var) {
-		// TODO Auto-generated method stub
-		return 0;
+		int queenLocation = -1;
+		for (int i = 0; i < board.length; i++){
+			if (board[var][i])
+				queenLocation = i;
+		}
+		return queenLocation;
 	}
 
-	@Override
-	public void setValue(int var, int value) { //Remove old queen
-		// TODO Auto-generated method stub
+	@Override	//done
+	public void setValue(int var, int value) {
+		for (int i = 0; i < board.length; i++){
+			board[var][i] = false;
+		}
+		board[var][value] = true;
 	}
 
 }

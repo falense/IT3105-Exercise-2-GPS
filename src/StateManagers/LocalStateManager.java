@@ -4,12 +4,24 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import States.AbstractState;
+import States.ChessBoard;
 
 public abstract class LocalStateManager {
 	AbstractState state;
 
 	public abstract String getName();
-	public abstract AbstractState generateNeighbourState();
+	
+	public AbstractState generateNeighbourState(){
+		AbstractState newState = state.copy();
+		
+		LinkedList<Integer> variables = newState.getVars();
+		LinkedList<Integer> values = newState.getPossibleValues();
+	
+		int y = variables.get(new Random().nextInt(variables.size()));
+		int x = values.get(new Random().nextInt(values.size()));	
+		newState.setValue(y, x);
+		return newState;
+	}
 	
 	public LocalStateManager(AbstractState state) {
 		this.state = state;

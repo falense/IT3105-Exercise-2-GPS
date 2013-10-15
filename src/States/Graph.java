@@ -143,6 +143,11 @@ public class Graph extends AbstractState{
 			throw new IndexOutOfBoundsException(className + "SetValue index out of bounds");
 		}
 	}
+	@Override
+	public AbstractState copy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 	
