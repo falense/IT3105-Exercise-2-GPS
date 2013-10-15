@@ -8,8 +8,9 @@ import States.ChessBoard;
 
 public abstract class LocalStateManager {
 	AbstractState state;
-
 	public abstract String getName();
+	public abstract double evaluate(AbstractState state);
+	public abstract LocalStateManager copy();
 	
 	public AbstractState generateNeighbourState(){
 		AbstractState newState = state.copy();
@@ -17,9 +18,9 @@ public abstract class LocalStateManager {
 		LinkedList<Integer> variables = newState.getVars();
 		LinkedList<Integer> values = newState.getPossibleValues();
 	
-		int y = variables.get(new Random().nextInt(variables.size()));
-		int x = values.get(new Random().nextInt(values.size()));	
-		newState.setValue(y, x);
+		int var = variables.get(new Random().nextInt(variables.size()));
+		int value = values.get(new Random().nextInt(values.size()));	
+		newState.setValue(var, value);
 		return newState;
 	}
 	
@@ -55,13 +56,6 @@ public abstract class LocalStateManager {
 		state.setValue(var, minConfValues.get(rindex));
 	}
 	
-	
-	
-	
-	public abstract double evaluate(AbstractState state);
-
-	
-
 	public void setState(AbstractState bestState) {
 		this.state = bestState;
 		
@@ -75,5 +69,4 @@ public abstract class LocalStateManager {
 	public AbstractState getState(){
 		return state;
 	}
-	public abstract LocalStateManager copy();
 }

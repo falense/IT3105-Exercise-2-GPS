@@ -27,12 +27,17 @@ public class UserInterface {
 		kmc.setStateManager(qm);
 		kmc.solve();
 	}
-	
+	public void RunSAGCTest(){
+		GraphColorManager man = new GraphColorManager("graph-color-3.txt");
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0);
+		sa.setStateManager(man);
+		sa.solve();
+	}
 	
 	public static void main(String[] args) {
 		UserInterface s = new UserInterface();
 		//s.RunMCTest();
-		s.RunMCKQTest();
+		s.RunSAGCTest();
 		
 		
 		

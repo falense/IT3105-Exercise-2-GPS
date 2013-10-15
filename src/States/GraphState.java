@@ -89,6 +89,17 @@ class Node{
 		x = 50 + relX * scaleX;
 		y = 50 + relY * scaleY;
 	}
+	public Node(Node r){
+		uniqueID = r.uniqueID;
+		setPosition( r.x,r.y);
+		setColor(r.color);
+		for (Node n: r.neighbours){
+			neighbours.add(n);
+		}
+	}
+	public Node copy(){
+		return new Node(this);
+	}
 }
 class GUI{
 	
@@ -266,6 +277,12 @@ public class GraphState extends AbstractState{
 	public GraphState(String filename) {
 		loadGraph(filename);
 	}
+	public GraphState(GraphState old){
+		nodes = new Node[old.nodes.length];
+		for (int i = 0; i < old.nodes.length; i++){
+			nodes[i] = old.nodes[i].copy();
+		}
+	}
 	
 	
 	@Override
@@ -311,8 +328,7 @@ public class GraphState extends AbstractState{
 	}
 	@Override
 	public AbstractState copy() {
-		// TODO Auto-generated method stub
-		return null;
+		return new GraphState(this);
 	}
 
 

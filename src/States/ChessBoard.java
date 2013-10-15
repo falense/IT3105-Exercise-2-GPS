@@ -37,20 +37,7 @@ public class ChessBoard extends AbstractState  {
 	public boolean getPiece(int x, int y){	// just used for graphics.
 		return board[x][y];
 	}
-	
-	/*
-	private void changePiece(int x, int y){
-		this.board[x][y] = !board[x][y];
-	}
-	
-	private void setTrue(int x, int y){
-		this.board[x][y] = true;
-	}
-	
-	private void setFalse(int x, int y){
-		this.board[x][y] = true;
-	}
-	*/
+
 	
 	private void setRandomRow(int y){
 		for (int x = 0 ; x < board.length ; x++){

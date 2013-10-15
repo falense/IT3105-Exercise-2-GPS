@@ -1,11 +1,7 @@
 package StateManagers;
 
-import java.util.LinkedList;
-import java.util.Random;
-
 import States.AbstractState;
 import States.ChessBoard;
-import States.Graph;
 
 public class KQueensManager extends LocalStateManager {
 	private String className = KQueensManager.class.getName();
