@@ -5,8 +5,6 @@ import StateManagers.KQueensManager;
 
 
 public class UserInterface {
-	
-
 	public void RunSAKQTest(){
 		KQueensManager qm = new KQueensManager(16);
 		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0);

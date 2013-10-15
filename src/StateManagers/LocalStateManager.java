@@ -7,9 +7,8 @@ import States.AbstractState;
 import States.ChessBoard;
 
 public abstract class LocalStateManager {
-	AbstractState state;
+	private AbstractState state;
 	public abstract String getName();
-	//public abstract double evaluate(AbstractState state);
 	public abstract LocalStateManager copy();
 	
 	public AbstractState generateNeighbourState(){
@@ -58,13 +57,10 @@ public abstract class LocalStateManager {
 	
 	public void setState(AbstractState bestState) {
 		this.state = bestState;
-		
 	}
 
 	public boolean done(){
-		boolean r = state.isOptimal();
-		//if (r == true) state.display();
-		return r;
+		return state.isOptimal();
 	}
 	public AbstractState getState(){
 		return state;

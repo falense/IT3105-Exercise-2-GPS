@@ -33,18 +33,16 @@ class Node{
 	private int uniqueID;
 	public boolean hasConflicts(){
 		for (Node n: neighbours){
-			if (n.color == color){
+			if (n.color == color)
 				return true;
-			}
 		}
 		return false;
 	}
 	public int getNumberOfConflicts(){
 		int conflicts = 0;
 		for (Node n: neighbours){
-			if (n.color == color){
+			if (n.color == color)
 				conflicts++;
-			}
 		}
 		return conflicts;
 	}
@@ -55,7 +53,6 @@ class Node{
 		return this.color;
 	}
 	private void setPosition(double x, double y){
-
 		this.x = x;
 		this.y = y;
 	}
@@ -107,8 +104,6 @@ class GUI{
     	
     }
     private void drawGraph(final GraphState s){
-    	
-        // Create a graph with Integer vertices and String edges
         Graph<Node,  Pair<Node>> g = new SparseGraph<Node, Pair<Node>>();
         Node []nodes = s.getNodes();
         for (int i = 0; i < nodes.length; i++){
@@ -131,13 +126,12 @@ class GUI{
 				return p;
 			}
 		};  
-        // Layout implements the graph drawing logic
+		
         Layout<Node,  Pair<Node>> layout = new StaticLayout<Node,  Pair<Node>>(g,locationTransformer);
-        // VisualizationServer actually displays the graph
+        
         BasicVisualizationServer<Node, Pair<Node>> vv = new BasicVisualizationServer<Node, Pair<Node>>(layout);
-        vv.setPreferredSize(new Dimension(1000,1000)); //Sets the viewing area size
+        vv.setPreferredSize(new Dimension(1000,1000)); 
 
-        // Transformer maps the vertex number to a vertex property
         Transformer<Node,Paint> vertexColor = new Transformer<Node,Paint>() {
             public Paint transform(Node i) {
             	switch (i.getColor()){
@@ -157,18 +151,14 @@ class GUI{
         
         Transformer<Pair<Node>,Paint> edgeColor = new Transformer<Pair<Node>,Paint>() {
             public Paint transform(Pair<Node> i) {
-            	//System.out.println(i.getFirst().getColor() + " " + i.getSecond().getColor() );
-            	if (i.getFirst().getColor() == i.getSecond().getColor()){
+            	if (i.getFirst().getColor() == i.getSecond().getColor())
             		return Color.RED;
-            	}
-            	else{
+            	else
             		return Color.BLACK;
-            	}
             }
         };
         
         Transformer<Pair<Node>, Stroke> edgeStroke = new Transformer<Pair<Node>, Stroke>() {
-            float dash[] = { 10.0f };
             public Stroke transform(Pair<Node> i) {
                	if (i.getFirst().getColor() == i.getSecond().getColor()){
             		return new BasicStroke(3.0f);
@@ -192,7 +182,6 @@ class GUI{
         vv.getRenderContext().setEdgeStrokeTransformer(edgeStroke);
 
         JFrame frame = new JFrame("Graph view");
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(vv); 
         frame.pack();
         frame.setVisible(true);    
@@ -282,7 +271,6 @@ public class GraphState extends AbstractState{
 		}
 	}
 	
-	
 	@Override
 	public LinkedList<Integer> getVars() {
 		LinkedList<Integer> vars = new LinkedList<Integer>();
@@ -328,7 +316,5 @@ public class GraphState extends AbstractState{
 	public AbstractState copy() {
 		return new GraphState(this);
 	}
-
-
 	
 }

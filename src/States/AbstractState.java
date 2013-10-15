@@ -30,7 +30,6 @@ public abstract class AbstractState {
 		else
 			return true;
 	}
-	
 	public int testNumberOfConflicts(int var, int value) {		
 		int oldvalue = getValue(var);
 		setValue(var,value);

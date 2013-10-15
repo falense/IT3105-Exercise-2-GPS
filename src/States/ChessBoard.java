@@ -3,7 +3,7 @@ package States;
 import java.util.LinkedList;
 
 public class ChessBoard extends AbstractState  {
-	boolean[][] board;
+	private boolean[][] board;
 	
 	public ChessBoard(int size){
 		this.board = new boolean[size][size];

@@ -23,7 +23,6 @@ public class BoardGraphics {
 	
 	private void createWindow(){
 		frame = new JFrame("K-Queens");
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   
         GridLayout g = new GridLayout(8,8);
         g.setHgap(2);
@@ -33,74 +32,11 @@ public class BoardGraphics {
 		layout.add(boardPanel);
 		
 		frame.add(layout);
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
-		boardPanel.add(new JLabel());
+		for (int i = 0; i < 64; i++)
+			boardPanel.add(new JLabel());
 		
 		updateBoard(null);
         frame.pack();
-        //Display the window.
         frame.setVisible(true);
 		
 	}
@@ -118,7 +54,6 @@ public class BoardGraphics {
 				ImageIcon j = new ImageIcon(b);
 				t.setIcon(j);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			
 		}
@@ -128,9 +63,5 @@ public class BoardGraphics {
 			for (int i = 0; i < 8; i++)
 				for (int j = 0; j < 8;j++)
 					updatePiece(b.getPiece(i, j),i,j);
-		
-		
 	}
-	
-
 }
