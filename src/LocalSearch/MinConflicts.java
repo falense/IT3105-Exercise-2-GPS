@@ -16,8 +16,9 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
 				int var = sm.getConflictedVariable();
 				sm.optimizeConflictedVariable(var);
 				steps++;
+				System.out.println("Step number: " + steps);
 			}
-			//System.out.println("Completed in " + steps + " steps");
+			System.out.println("Completed in " + steps + " steps");
 	}
 	
 	public int getStepsToSolve(){

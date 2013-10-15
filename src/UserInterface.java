@@ -20,11 +20,18 @@ public class UserInterface {
 		sa.solve();
 	}
 	
+	public void RunMCKQTest(){
+		KQueensManager qm = new KQueensManager(8);
+		MinConflicts kmc = new MinConflicts();
+		kmc.setStateManager(qm);
+		kmc.solve();
+	}
+	
 	
 	public static void main(String[] args) {
 		UserInterface s = new UserInterface();
 		//s.RunMCTest();
-		s.RunSAKQTest();
+		s.RunMCKQTest();
 		
 		
 		
