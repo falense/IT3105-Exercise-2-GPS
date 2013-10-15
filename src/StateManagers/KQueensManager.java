@@ -28,7 +28,7 @@ public class KQueensManager extends LocalStateManager {
 
 	@Override
 	public String getName() {
-		return className;
+		return className + " K = " + size;
 	}
 
 	@Override

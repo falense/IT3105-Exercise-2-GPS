@@ -21,9 +21,9 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}*/
-				System.out.println("Step number: " + steps);
+				//System.out.println("Step number: " + steps);
 			}
-			System.out.println("Completed in " + steps + " steps");
+			//System.out.println("Completed in " + steps + " steps");
 	}
 	
 	public int getStepsToSolve(){

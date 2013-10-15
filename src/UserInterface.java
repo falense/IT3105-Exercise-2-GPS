@@ -13,17 +13,15 @@ public class UserInterface {
 		sa.setStateManager(qm);
 		sa.solve();
 	}
-	
-
 	public void RunSAGCTest(){
-		GraphColorManager man = new GraphColorManager("graph-color-2.txt");
+		GraphColorManager man = new GraphColorManager("graph-color-3.txt");
 		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0);
 		sa.setStateManager(man);
 		sa.solve();
 		man.getState().display();
 	}
 	public void RunMCKQTest(){
-		KQueensManager qm = new KQueensManager(8);
+		KQueensManager qm = new KQueensManager(100);
 		MinConflicts kmc = new MinConflicts();
 		kmc.setStateManager(qm);
 		kmc.solve();
@@ -33,19 +31,15 @@ public class UserInterface {
 		MinConflicts mc = new MinConflicts();
 		mc.setStateManager(man);
 		mc.solve();
-		man.getState().display();
+		//man.getState().display();
 	}
 	
 	public static void main(String[] args) {
 		UserInterface s = new UserInterface();
-		s.RunMCGCTest();
+		//s.RunMCGCTest();
+		//s.RunMCKQTest();
+		//s.RunSAKQTest();
 		s.RunMCKQTest();
-		s.RunSAKQTest();
-		s.RunSAGCTest();
-		
-		
-		
-		System.out.println("Test");
 		
 	}
 }

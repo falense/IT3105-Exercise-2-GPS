@@ -1,23 +1,29 @@
 import LocalSearch.ConstraintBasedLocalSearch;
 import LocalSearch.MinConflicts;
+import LocalSearch.SimulatedAnnealing;
 import StateManagers.GraphColorManager;
+import StateManagers.KQueensManager;
 import StateManagers.LocalStateManager;
 class Problem{
 	
 }
 public class StatisticsRunner {
-	public static final int maxRuns = 200;
+	public static final int maxRuns = 20;
 	
 	private LocalStateManager[] getProblems(){
-		LocalStateManager [] problems = new LocalStateManager[3];
+		LocalStateManager [] problems = new LocalStateManager[6];
 		problems[0] = new GraphColorManager("graph-color-1.txt");
 		problems[1] = new GraphColorManager("graph-color-2.txt");
 		problems[2] = new GraphColorManager("graph-color-3.txt");
+		problems[3] = new KQueensManager(8);
+		problems[4] = new KQueensManager(25);
+		problems[5] = new KQueensManager(100);
 		return problems;
 	}
 	private ConstraintBasedLocalSearch[] getSolvers(){
-		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[1];
+		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[2];
 		solvers[0] = new MinConflicts();
+		solvers[1] = new SimulatedAnnealing(20,100,0.02,0);
 		return solvers;
 	}
 	private void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm){
