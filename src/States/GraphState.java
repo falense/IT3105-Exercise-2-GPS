@@ -18,7 +18,6 @@ import javax.swing.JFrame;
 
 import org.apache.commons.collections15.Transformer;
 
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.Graph;
@@ -309,6 +308,11 @@ public class GraphState extends AbstractState{
 		else{
 			throw new IndexOutOfBoundsException(className + "SetValue index out of bounds");
 		}
+	}
+	@Override
+	public AbstractState copy() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

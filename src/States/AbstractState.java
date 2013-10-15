@@ -9,6 +9,8 @@ public abstract class AbstractState {
 	public abstract int getValue(int var);
 	public abstract void setValue(int var, int value);
 	public abstract void display();
+	public abstract AbstractState copy();
+
 	public boolean isInvolvedInConflict(int var){
 		if (getNumberOfConflicts(var) > 0)
 			return true;
@@ -36,4 +38,5 @@ public abstract class AbstractState {
 		setValue(var,oldvalue);
 		return conflicts;
 	}
+	
 }

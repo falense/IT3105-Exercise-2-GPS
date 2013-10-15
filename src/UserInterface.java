@@ -1,5 +1,7 @@
 import LocalSearch.MinConflicts;
+import LocalSearch.SimulatedAnnealing;
 import StateManagers.GraphColorManager;
+import StateManagers.KQueensManager;
 
 
 public class UserInterface {
@@ -11,8 +13,30 @@ public class UserInterface {
 		mc.solve();
 		man.getState().display();
 	}
+	
+	public void RunSAKQTest(){
+		KQueensManager qm = new KQueensManager(16);
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0);
+		sa.setStateManager(qm);
+		sa.solve();
+	}
+	
+	public void RunMCKQTest(){
+		KQueensManager qm = new KQueensManager(8);
+		MinConflicts kmc = new MinConflicts();
+		kmc.setStateManager(qm);
+		kmc.solve();
+	}
+	
+	
 	public static void main(String[] args) {
 		UserInterface s = new UserInterface();
-		s.RunMCTest();
+		//s.RunMCTest();
+		s.RunMCKQTest();
+		
+		
+		
+		System.out.println("Test");
+		
 	}
 }

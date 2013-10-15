@@ -1,60 +1,44 @@
 package StateManagers;
 
+import java.util.LinkedList;
+import java.util.Random;
+
 import States.AbstractState;
 import States.ChessBoard;
+import States.Graph;
 
 public class KQueensManager extends LocalStateManager {
+	private String className = KQueensManager.class.getName();
+	int size;
 	
 	
-	public AbstractState generateNeighbourState(){
-		ChessBoard board = (ChessBoard) super.getState();
-		ChessBoard newBoard = (ChessBoard) board.copyBoard();
-		int y = (int) Math.random()*board.getSize();
-		newBoard.setRandomRow(y);
-		
-		return newBoard;
-	}
-	
-	public double evaluate(AbstractState state){
-		double score = 0;
-		ChessBoard board = (ChessBoard) super.getState();
-		
-		for (int i = 0 ; i < board.getSize() ; i++){
-			for (int j = 0 ; j < board.getSize() ; j++){
-				if (board.getPiece(i, j)){
-					score += board.findConflicts(i,j);
-				}
-			}
-		}
-		return score/2;
-		
-	}
-	
-	public AbstractState generateInitialState(int size){
-		AbstractState board = new ChessBoard(size);
-		
-		for (int i = 0 ; i < size ; i++){
-			((ChessBoard) board).setTrue(i,(int) Math.random()*size);
-		}
-		
-		return board;
-	}
 
-	public KQueensManager(AbstractState state) {
-		super(state);
+	public KQueensManager(int size) {
+		super(new ChessBoard(size));
+		this.size = size;
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+	
+	//max conflics - conflicts, more or less.
+	public double evaluate(AbstractState state){
+		int size = state.getVars().size(); 	
+		return (size*size)-state.getNumberOfConflicts();
+	}
+	
+
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return className;
 	}
 
 	@Override
 	public LocalStateManager copy() {
 		// TODO Auto-generated method stub
-		return null;
+		return new KQueensManager(size);
 	}
 
 }
