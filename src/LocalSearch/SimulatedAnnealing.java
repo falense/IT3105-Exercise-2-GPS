@@ -31,6 +31,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	public void solve(){
 		Temperature = MaxTemprature;
 		currentScore = -sm.getState().getNumberOfConflicts();
+		System.out.println("Current Score = " + (-currentScore));
 		//AbstractState currentState = manager.getState();
 		
 		while (stepsToSolve < 10000 && currentScore < targetScore ){
@@ -46,30 +47,56 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				tempState = sm.generateNeighbourState();
 				newStates.add(tempState);
 				tempScore = -tempState.getNumberOfConflicts();	
+				
 				//can the original state still be chosen? needs to be addressed maybe added...
 				if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
 					tempMaxScore = tempScore;
 					bestState = tempState;
+					System.out.println("Best Neighbour Score = " + (-tempMaxScore));
 				}
 				
 			}
 			
-			double q = (tempMaxScore-currentScore)/(currentScore);
+			
+			
+			double q = (tempMaxScore-currentScore)/(-currentScore);
+			
+			//System.out.println("Value for q = " +q);
+			
+			
+			
+			double exponent = (-q/Temperature);
+			//System.out.println("Value for exponent = " +exponent);
+			
 			double p = Math.min(1, 
-									Math.pow(2.71828182846, 
-											(-q/Temperature)
-											));
+									Math.pow(2.71828182846, exponent	));				
+											
+											
+			//System.out.println("Value for p = " +p);
+			
 			double x = Math.random();
+			
+			//System.out.println("Value for x = " +x);
 			
 			if ( x>p ){
 				sm.setState(bestState);
+				System.out.println("Exploit!");
 			} else {
 				sm.setState(newStates.get((int)(Math.random()*numberNeighbours)));
+				System.out.println("Explore!");
 			}
 			
-			Temperature -= DeltaTemperature;
+			//linear
+			Temperature = Math.max(Temperature-DeltaTemperature, 0.01);
+			
+			//rate of decay
+			//Temperature *= (1-DeltaTemperature);
+			
 			stepsToSolve++;
 			currentScore = -sm.getState().getNumberOfConflicts();
+			System.out.println("Round number: " +stepsToSolve);
+			System.out.println("Current conflicts: " + (-currentScore));
+			System.out.println("Current Temperature: " + Temperature);
 	
 		}
 	} 

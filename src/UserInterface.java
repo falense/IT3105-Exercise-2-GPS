@@ -11,12 +11,23 @@ public class UserInterface {
 		MinConflicts mc = new MinConflicts();
 		mc.setStateManager(man);
 		mc.solve();
-		KQueensManager qm = new KQueensManager(8);
-		SimulatedAnnealing sa = new SimulatedAnnealing(4,100,2,64);
 	}
+	
+	public void RunSAKQTest(){
+		KQueensManager qm = new KQueensManager(16);
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0);
+		sa.setStateManager(qm);
+		sa.solve();
+	}
+	
+	
 	public static void main(String[] args) {
-		//UserInterface s = new UserInterface();
+		UserInterface s = new UserInterface();
 		//s.RunMCTest();
+		s.RunSAKQTest();
+		
+		
+		
 		System.out.println("Test");
 		
 	}
