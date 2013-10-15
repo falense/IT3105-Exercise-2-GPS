@@ -4,18 +4,18 @@ import States.AbstractState;
 import States.ChessBoard;
 
 public class KQueensManager extends LocalStateManager {
+	private String className = KQueensManager.class.getName();
 	
-	
-	public AbstractState generateNeighbourState(){
+	public AbstractState generateNeighbourState(){ //Should be moved to localstatemanager
 		ChessBoard board = (ChessBoard) super.getState();
-		ChessBoard newBoard = (ChessBoard) board.copyBoard();
+		ChessBoard newBoard = (ChessBoard) board.copy();
 		int y = (int) Math.random()*board.getSize();
 		newBoard.setRandomRow(y);
 		
 		return newBoard;
 	}
 	
-	public double evaluate(AbstractState state){
+	public double evaluate(AbstractState state){ //Should become getNumberOfConflicts
 		double score = 0;
 		ChessBoard board = (ChessBoard) super.getState();
 		
@@ -47,8 +47,7 @@ public class KQueensManager extends LocalStateManager {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return className;
 	}
 
 	@Override

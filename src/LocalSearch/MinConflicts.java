@@ -12,7 +12,7 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
 	@Override
 	public void solve() {
 			steps = 0;
-			while (!sm.done()){
+			while (!sm.done() && steps < 10000){
 				int var = sm.getConflictedVariable();
 				sm.optimizeConflictedVariable(var);
 				steps++;

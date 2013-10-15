@@ -9,6 +9,7 @@ public abstract class LocalStateManager {
 	AbstractState state;
 
 	public abstract String getName();
+	public abstract AbstractState generateNeighbourState();
 	
 	public LocalStateManager(AbstractState state) {
 		this.state = state;
@@ -45,15 +46,9 @@ public abstract class LocalStateManager {
 	
 	
 	
-	public double evaluate(AbstractState state){
-		//todo
-		return 0;
-	}
+	public abstract double evaluate(AbstractState state);
+
 	
-	public AbstractState generateNeighbourState(){
-		//todo
-		return null;
-	}
 
 	public void setState(AbstractState bestState) {
 		this.state = bestState;

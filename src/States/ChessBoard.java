@@ -66,7 +66,7 @@ public class ChessBoard extends AbstractState  {
 		return cons-1;
 	}
 	
-	public AbstractState copyBoard(){
+	public AbstractState copy(){
 		return new ChessBoard(this);
 	}
 	
@@ -76,7 +76,7 @@ public class ChessBoard extends AbstractState  {
 	
 
 	@Override
-	public LinkedList<Integer> getVars() {
+	public LinkedList<Integer> getVars() { 
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -95,19 +95,13 @@ public class ChessBoard extends AbstractState  {
 
 
 	@Override
-	public int testNumberOfConflicts(int var, int value) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int getValue(int var) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setValue(int var, int value) {
+	public void setValue(int var, int value) { //Remove old queen
 		// TODO Auto-generated method stub
 	}
 

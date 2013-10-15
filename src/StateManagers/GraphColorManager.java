@@ -1,5 +1,6 @@
 package StateManagers;
 
+import States.AbstractState;
 import States.Graph;
 
 public class GraphColorManager extends LocalStateManager {
@@ -17,6 +18,19 @@ public class GraphColorManager extends LocalStateManager {
 	@Override
 	public LocalStateManager copy() {
 		return new GraphColorManager(graphfile);
+	}
+
+	@Override
+	public AbstractState generateNeighbourState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public
+	double evaluate(AbstractState state) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

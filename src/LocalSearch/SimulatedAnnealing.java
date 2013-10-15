@@ -13,7 +13,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	private double MaxTemprature;
 	private double DeltaTemperature;
 	private double Temperature;
-	private int counter = 0;
+	private int stepsToSolve = 0;
 	private double targetScore;
 	private double currentScore;
 	private int numberNeighbours;
@@ -31,7 +31,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		currentScore = sm.evaluate(sm.getState());
 		//AbstractState currentState = manager.getState();
 		
-		while (counter < 10000 && currentScore < targetScore){
+		while (stepsToSolve < 10000 && currentScore < targetScore){
 			
 			AbstractState tempState = null;
 			AbstractState bestState = null;
@@ -65,7 +65,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			}
 			
 			Temperature -= DeltaTemperature;
-			counter++;
+			stepsToSolve++;
 			currentScore = sm.evaluate(sm.getState());
 	
 		}
@@ -75,14 +75,12 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	
 	@Override
 	public int getStepsToSolve() {
-		// TODO Auto-generated method stub
-		return 0;
+		return stepsToSolve;
 	}
 
 	@Override
 	public int getSolutionNumConflicts() {
-		// TODO Auto-generated method stub
-		return 0;
+		return sm.getState().getNumberOfConflicts();
 	}
 
 	@Override
