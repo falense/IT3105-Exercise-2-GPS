@@ -18,7 +18,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	private double currentScore;
 	private int numberNeighbours;
 	
-	//example SimulatedAnnealing(20,100,2,64);
+	//example SimulatedAnnealing(20,100,2,0);
 	
 	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore){
 		this.DeltaTemperature = DeltaTemprature;
@@ -30,23 +30,24 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	
 	public void solve(){
 		Temperature = MaxTemprature;
-		currentScore = sm.evaluate(sm.getState());
+		currentScore = -sm.getState().getNumberOfConflicts();
 		//AbstractState currentState = manager.getState();
 		
-		while (stepsToSolve < 10000 && currentScore < targetScore){
+		while (stepsToSolve < 10000 && currentScore < targetScore ){
 			
 			AbstractState tempState = null;
 			AbstractState bestState = null;
 			
 			ArrayList<AbstractState> newStates= new ArrayList<AbstractState>();
-			double tempMaxScore = 0;
-			double tempScore = 0;
+			double tempMaxScore = Double.MIN_VALUE;
+			double tempScore = Double.MIN_VALUE;
 			
 			for (int i = 0 ; i < numberNeighbours ; i++){
 				tempState = sm.generateNeighbourState();
 				newStates.add(tempState);
-				tempScore = sm.evaluate(tempState);	
-				if (tempMaxScore==0 || tempMaxScore < tempScore){
+				tempScore = -tempState.getNumberOfConflicts();	
+				//can the original state still be chosen? needs to be addressed maybe added...
+				if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
 					tempMaxScore = tempScore;
 					bestState = tempState;
 				}
@@ -68,7 +69,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			
 			Temperature -= DeltaTemperature;
 			stepsToSolve++;
-			currentScore = sm.evaluate(sm.getState());
+			currentScore = -sm.getState().getNumberOfConflicts();
 	
 		}
 	} 
