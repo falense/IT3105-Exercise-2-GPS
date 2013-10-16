@@ -1,36 +1,40 @@
 import LocalSearch.MinConflicts;
 import LocalSearch.SimulatedAnnealing;
+import StateManagers.EquationManager;
 import StateManagers.GraphColorManager;
 import StateManagers.KQueensManager;
 
 
 public class UserInterface {
-	
-
 	public void RunSAKQTest(){
-		KQueensManager qm = new KQueensManager(8);
-		SimulatedAnnealing sa = new SimulatedAnnealing(20,20,0.1,0);
+		KQueensManager qm = new KQueensManager(16);
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0,true);
 		sa.setStateManager(qm);
 		sa.solve();
 	}
-	
-
 	public void RunSAGCTest(){
-		GraphColorManager man = new GraphColorManager("graph-color-1.txt");
-		SimulatedAnnealing sa = new SimulatedAnnealing(20,10,0.01,0);
+		GraphColorManager man = new GraphColorManager("graph-color-3.txt");
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0,true);
 		sa.setStateManager(man);
 		sa.solve();
 		man.getState().display();
 	}
 	public void RunMCKQTest(){
-		KQueensManager qm = new KQueensManager(128);
-		MinConflicts kmc = new MinConflicts();
+		KQueensManager qm = new KQueensManager(100);
+		MinConflicts kmc = new MinConflicts(true);
 		kmc.setStateManager(qm);
 		kmc.solve();
 	}	
 	public void RunMCGCTest(){
 		GraphColorManager man = new GraphColorManager("graph-color-3.txt");
-		MinConflicts mc = new MinConflicts();
+		MinConflicts mc = new MinConflicts(true);
+		mc.setStateManager(man);
+		mc.solve();
+		//man.getState().display();
+	}
+	public void RunMCEQTest(){
+		EquationManager man = new EquationManager(200);
+		MinConflicts mc = new MinConflicts(true);
 		mc.setStateManager(man);
 		mc.solve();
 		man.getState().display();
@@ -41,11 +45,8 @@ public class UserInterface {
 		//s.RunMCGCTest();
 		//s.RunMCKQTest();
 		//s.RunSAKQTest();
-		s.RunSAGCTest();
+		s.RunMCEQTest();
 		
-		
-		
-		//System.out.println("Test");
 		
 	}
 }

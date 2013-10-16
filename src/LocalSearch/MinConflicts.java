@@ -3,8 +3,8 @@ package LocalSearch;
 
 public class MinConflicts extends ConstraintBasedLocalSearch {
 	public static final String className = MinConflicts.class.getName();
-	public MinConflicts() {
-		super();
+	public MinConflicts(boolean debug) {
+		super(debug);
 	}
 	
 	private int steps = 0;
@@ -21,9 +21,9 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}*/
-				System.out.println("Step number: " + steps);
+				print("Step number: " + steps + " Number of conflicts: " + sm.getState().getNumberOfConflicts());
 			}
-			System.out.println("Completed in " + steps + " steps");
+			print("Completed in " + steps + " steps");
 	}
 	
 	public int getStepsToSolve(){

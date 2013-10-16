@@ -20,7 +20,8 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	
 	//example SimulatedAnnealing(20,100,2,0);
 	
-	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore){
+	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug){
+		super(debug);
 		this.DeltaTemperature = DeltaTemprature;
 		this.numberNeighbours = numberNeighbours;
 		this.MaxTemprature = MaxTemprature;
@@ -31,7 +32,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	public void solve(){
 		Temperature = MaxTemprature;
 		currentScore = -sm.getState().getNumberOfConflicts();
-		System.out.println("Current Score = " + (-currentScore));
+		print("Current Score = " + (-currentScore));
 		//AbstractState currentState = manager.getState();
 		
 		while (stepsToSolve < 10000 && currentScore < targetScore ){
@@ -52,7 +53,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
 					tempMaxScore = tempScore;
 					bestState = tempState;
-					
+					print("Best Neighbour Score = " + (-tempMaxScore));
 				}
 				
 			}
@@ -80,10 +81,10 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			
 			if ( x > p ){
 				sm.setState(bestState);
-				System.out.println("Exploit!");
+				print("Exploit!");
 			} else {
 				sm.setState(newStates.get((int)(Math.random()*numberNeighbours)));
-				System.out.println("Explore!");
+				print("Explore!");
 			}
 			
 			
@@ -95,9 +96,9 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			
 			stepsToSolve++;
 			currentScore = -sm.getState().getNumberOfConflicts();
-			System.out.println("Round number: " +stepsToSolve);
-			System.out.println("Current conflicts: " + (-currentScore));
-			
+			print("Round number: " +stepsToSolve);
+			print("Current conflicts: " + (-currentScore));
+			print("Current Temperature: " + Temperature);
 	
 		}
 	} 
