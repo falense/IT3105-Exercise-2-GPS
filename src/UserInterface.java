@@ -39,13 +39,20 @@ public class UserInterface {
 		mc.solve();
 		man.getState().display();
 	}
+	public void RunSAEQTest(){
+		EquationManager man = new EquationManager(200);
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,0.02,0,true);
+		sa.setStateManager(man);
+		sa.solve();
+		man.getState().display();
+	}
 	
 	public static void main(String[] args) {
 		UserInterface s = new UserInterface();
 		//s.RunMCGCTest();
 		//s.RunMCKQTest();
 		//s.RunSAKQTest();
-		s.RunMCEQTest();
+		s.RunSAEQTest();
 		
 		
 	}
