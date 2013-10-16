@@ -1,9 +1,11 @@
 import LocalSearch.ConstraintBasedLocalSearch;
 import LocalSearch.MinConflicts;
 import LocalSearch.SimulatedAnnealing;
+import StateManagers.EquationManager;
 import StateManagers.GraphColorManager;
 import StateManagers.KQueensManager;
 import StateManagers.LocalStateManager;
+import States.EquationState;
 class Problem{
 	
 }
@@ -11,19 +13,22 @@ public class StatisticsRunner {
 	public static final int maxRuns = 20;
 	
 	private LocalStateManager[] getProblems(){
-		LocalStateManager [] problems = new LocalStateManager[6];
-		problems[0] = new GraphColorManager("graph-color-1.txt");
-		problems[1] = new GraphColorManager("graph-color-2.txt");
-		problems[2] = new GraphColorManager("graph-color-3.txt");
-		problems[3] = new KQueensManager(8);
-		problems[4] = new KQueensManager(25);
-		problems[5] = new KQueensManager(100);
+		LocalStateManager [] problems = new LocalStateManager[9];
+		problems[0] = new EquationManager(10); 
+		problems[1] = new EquationManager(50);
+		problems[2] = new EquationManager(100); 
+		problems[3] = new GraphColorManager("graph-color-1.txt");
+		problems[4] = new GraphColorManager("graph-color-2.txt");
+		problems[5] = new GraphColorManager("graph-color-3.txt");
+		problems[6] = new KQueensManager(8);
+		problems[7] = new KQueensManager(25);
+		problems[8] = new KQueensManager(100);
 		return problems;
 	}
 	private ConstraintBasedLocalSearch[] getSolvers(){
 		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[2];
-		solvers[0] = new MinConflicts();
-		solvers[1] = new SimulatedAnnealing(20,100,0.02,0);
+		solvers[1] = new MinConflicts(false);
+		solvers[0] = new SimulatedAnnealing(20,100,0.02,0,false);
 		return solvers;
 	}
 	private void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm){
