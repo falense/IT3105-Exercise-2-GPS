@@ -1,16 +1,28 @@
 package States;
 
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class ChessBoard extends AbstractState  {
-	private boolean[][] board;
+	//private boolean[][] board;
+	private int[][] queens;
 	
 	public ChessBoard(int size){
-		this.board = new boolean[size][size];
+		//this.board = new boolean[size][size];
+		this.queens = new int[size][4];
 		for (int i = 0 ; i < size ; i++){
-			for (int j = 0 ; j < size ; j++){
-				board[i][j] = false;
-			}
+				queens[i][0] = i;
 		}
 		for (int k = 0 ; k < size ; k++){
 			setRandomRow(k);
@@ -18,46 +30,63 @@ public class ChessBoard extends AbstractState  {
 		
 	}
 	
+	
 	public ChessBoard(ChessBoard oldBoard){
-		this.board = new boolean[oldBoard.getSize()][oldBoard.getSize()];
+		this.queens = new int[oldBoard.getSize()][4];
 		for (int i = 0 ; i < oldBoard.getSize() ; i++){
-			for (int j = 0 ; j < oldBoard.getSize() ; j++){
-				if (oldBoard.getPiece(i, j))
-					board[i][j] = true;
-				else
-					board[i][j] = false;
-			}
+			queens[i][0] = i;
+			setQueen(i,oldBoard.getValue(i));
+				
 		}
 	}
 	
-	private int getSize(){
-		return board.length;
+	public void printQueens(){
+		for (int i = 0 ; i < queens.length ; i++){
+			System.out.println("Y: " +queens[i][0] + " X: " + queens[i][1] + " Diff " + queens[i][2] + " Sum " + queens[i][3]);
+		}
 	}
 	
-	public boolean getPiece(int x, int y){	// just used for graphics.
-		return board[x][y];
+	
+	private void setQueen(int var, int place){
+		queens[var][1] = place;
+		queens[var][2] = queens[var][0] - queens[var][1];
+		queens[var][3] = queens[var][0] + queens[var][1];
 	}
-
+	
+	public int getSize(){
+		return queens.length;
+	}
+	
+	private int getQueenLoc(int var){
+		return queens[var][1];
+	}
+	
 	
 	private void setRandomRow(int y){
-		for (int x = 0 ; x < board.length ; x++){
-			board[y][x] = false;
-		}
-		board[y][(int) Math.random()*board.length] = true;
+		int loc = new Random().nextInt(queens.length);
+		setQueen(y,loc);
 	}
 	
-	private int findConflicts(int x, int y){
-		int cons = 0;
-		for (int i = 0 ; i < board.length ; i++){
-			for (int j = 0 ; j < board.length ; j++){
-				if (board[i][j] && (i==x || j==y || (x-y)==(i-j) || (x+y) == (i+j))){
-					cons++;
-				}
+	private int findConflicts(int var){
+		int x = queens[var][1];
+		int diff = queens[var][2];
+		int sum = queens[var][3];
+		int confs = 0;
+		for (int i = 0 ; i < queens.length ; i++){
+			if(i!=var){
+				if(queens[i][1]==x)
+					confs++;
+				if(queens[i][2]==diff)
+					confs++;
+				if(queens[i][3]==sum)
+					confs++;
 			}
 		}
-		return cons-1;
+		//System.out.println("Found " + confs + " conflicts");
+		return confs;
 	}
 	
+	@Override
 	public AbstractState copy(){
 		return new ChessBoard(this);
 	}
@@ -66,21 +95,20 @@ public class ChessBoard extends AbstractState  {
 	@Override	//done
 	public LinkedList<Integer> getVars() { 
 		LinkedList<Integer> vars = new LinkedList<Integer>();
-		for (int i = 0; i < board.length; i++)
+		for (int i = 0; i < queens.length; i++)
 			vars.add(i);
 		return vars;
 	}
 
 	@Override	//done
 	public int getNumberOfConflicts(int var) {
-		int x = getValue(var);
-		return findConflicts(var,x);
+		return findConflicts(var);
 	}
 
 	@Override	//done
 	public LinkedList<Integer> getPossibleValues() {
 		LinkedList<Integer> vars = new LinkedList<Integer>();
-		for (int i = 0; i < board.length; i++)
+		for (int i = 0; i < queens.length; i++)
 			vars.add(i);
 		return vars;
 	}
@@ -88,26 +116,68 @@ public class ChessBoard extends AbstractState  {
 
 	@Override	//done
 	public int getValue(int var) {
-		int queenLocation = -1;
-		for (int i = 0; i < board.length; i++){
-			if (board[var][i])
-				queenLocation = i;
-		}
-		return queenLocation;
+		return getQueenLoc(var);
 	}
 
 	@Override	//done
 	public void setValue(int var, int value) {
-		for (int i = 0; i < board.length; i++){
-			board[var][i] = false;
-		}
-		board[var][value] = true;
+		setQueen(var,value);
 	}
 
 	@Override
 	public void display() {
-		// TODO Auto-generated method stub
+		new GUI(this);	
+	}
+	
+	class GUI{
+		private JFrame frame;
+		private JPanel boardPanel;
 		
+		public GUI(final ChessBoard s) {
+	    	drawBoard(s);
+	    }
+		private void drawBoard(final ChessBoard s){
+			frame = new JFrame("K-Queens");
+			  
+	        GridLayout g = new GridLayout(s.getSize(),s.getSize());
+	        g.setHgap(2);
+	        g.setVgap(2);
+			boardPanel = new JPanel(g);
+			JPanel layout = new JPanel(new GridBagLayout());
+			layout.add(boardPanel);
+			
+			frame.add(layout);
+			for (int i = 0; i < s.getSize()*s.getSize(); i++)
+				boardPanel.add(new JLabel());
+			
+			updateBoard(s);
+	        frame.pack();
+	        frame.setVisible(true);
+			
+		}
+		public void updatePiece(boolean i, int x, int y, int size){
+			JLabel t = (JLabel) boardPanel.getComponent(x+y*size);
+				try {		
+					BufferedImage b;
+					
+					if (i)
+						b = ImageIO.read(new File("./Resources/queen.png"));
+					else
+						b = ImageIO.read(new File("./Resources/notqueen.png"));
+					
+					ImageIcon j = new ImageIcon(b);
+					t.setIcon(j);
+				} catch (IOException e) {
+					e.printStackTrace();
+				
+			}
+		}
+		
+		public void updateBoard(ChessBoard s){
+				for (int i = 0; i < s.getSize(); i++)
+					for (int j = 0; j < s.getSize();j++)
+						updatePiece((getValue(i)==j),i,j,s.getSize());
+		}
 	}
 
 }

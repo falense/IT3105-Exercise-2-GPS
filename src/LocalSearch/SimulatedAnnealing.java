@@ -17,15 +17,36 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	private double targetScore;
 	private double currentScore;
 	private int numberNeighbours;
+	private int maxRuns;
+	private boolean linear;
 	
 	//example SimulatedAnnealing(20,100,2,0);
 	
-	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug){
+	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug, int maxRuns, boolean linear){
 		super(debug);
 		this.DeltaTemperature = DeltaTemprature;
 		this.numberNeighbours = numberNeighbours;
 		this.MaxTemprature = MaxTemprature;
 		this.targetScore = targetScore;
+		this.maxRuns = maxRuns;
+		this.linear = linear;
+	}
+	
+	//sets deltatemp to decrease linearly throughout the run
+	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double targetScore,boolean debug, int maxRuns, boolean linear){
+		super(debug);
+		double temp;
+		if (linear){
+			temp = MaxTemprature/maxRuns;
+		} else {
+			temp = MaxTemprature/maxRuns;
+		}
+		this.DeltaTemperature = 
+		this.numberNeighbours = numberNeighbours;
+		this.MaxTemprature = MaxTemprature;
+		this.targetScore = targetScore;
+		this.maxRuns = maxRuns;
+		this.linear = linear;
 	}
 	
 	
@@ -35,7 +56,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		print("Current Score = " + (-currentScore));
 		//AbstractState currentState = manager.getState();
 		
-		while (stepsToSolve < 10000 && currentScore < targetScore ){
+		while (stepsToSolve < maxRuns && currentScore < targetScore ){
 			
 			AbstractState tempState = null;
 			AbstractState bestState = null;
@@ -52,6 +73,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				//can the original state still be chosen? needs to be addressed maybe added...
 				if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
 					tempMaxScore = tempScore;
+					bestState = tempState;
 					print("Best Neighbour Score = " + (-tempMaxScore));
 				}
 				
@@ -72,13 +94,13 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 									Math.pow(2.71828182846, exponent	));				
 											
 											
-			//System.out.println("Value for p = " +p);
+			
 			
 			double x = Math.random();
 			
-			//System.out.println("Value for x = " +x);
 			
-			if ( x>p ){
+			
+			if ( x > p ){
 				sm.setState(bestState);
 				print("Exploit!");
 			} else {
@@ -86,11 +108,22 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				print("Explore!");
 			}
 			
-			//linear
-			Temperature = Math.max(Temperature-DeltaTemperature, 0.01);
 			
-			//rate of decay
-			//Temperature *= (1-DeltaTemperature);
+			
+			//temperature:
+			if (linear){
+				//linear
+				Temperature = Math.max(Temperature-DeltaTemperature, 0.1);
+			}
+			else {
+				//rate of decay
+				Temperature = Math.max(Temperature*(1-DeltaTemperature), 0.1);
+			}
+			
+			
+			
+			
+			
 			
 			stepsToSolve++;
 			currentScore = -sm.getState().getNumberOfConflicts();
