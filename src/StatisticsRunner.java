@@ -21,12 +21,12 @@ public class StatisticsRunner {
 		problems[3] = new EquationManager(5); 
 		problems[4] = new EquationManager(10);
 		problems[5] = new EquationManager(20); 
-		problems[6] = new GraphColorManager("graph-color-1.txt");
-		problems[7] = new GraphColorManager("graph-color-2.txt");
-		problems[8] = new GraphColorManager("graph-color-3.txt");
-		problems[9] = new KQueensManager(8);
-		problems[10] = new KQueensManager(25);
-		problems[11] = new KQueensManager(100);
+		problems[6] = new KQueensManager(8);
+		problems[7] = new KQueensManager(25);
+		problems[8] = new KQueensManager(100);
+		problems[9] = new GraphColorManager("graph-color-1.txt");
+		problems[10] = new GraphColorManager("graph-color-2.txt");
+		problems[11] = new GraphColorManager("graph-color-3.txt");
 		return problems;
 	}
 	private ConstraintBasedLocalSearch[] getSolvers(){
