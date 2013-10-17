@@ -21,5 +21,5 @@ public abstract class ConstraintBasedLocalSearch {
 	public abstract void clear();
 	public abstract void solve();
 	public abstract int getStepsToSolve();
-	
+	public abstract String getName();
 }

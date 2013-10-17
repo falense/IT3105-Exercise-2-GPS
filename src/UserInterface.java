@@ -3,12 +3,13 @@ import LocalSearch.SimulatedAnnealing;
 import StateManagers.EquationManager;
 import StateManagers.GraphColorManager;
 import StateManagers.KQueensManager;
+import StateManagers.SudokuManager;
 
 
 public class UserInterface {
 	public void RunSAKQTest(){
-		KQueensManager qm = new KQueensManager(16);
-		SimulatedAnnealing sa = new SimulatedAnnealing(20,10,0,true, 10000, true);
+		KQueensManager qm = new KQueensManager(10);
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,50,0,true, 10000, true);
 		sa.setStateManager(qm);
 		sa.solve();
 	}
@@ -21,13 +22,13 @@ public class UserInterface {
 	
 	public void RunSAEQTest(){
 		EquationManager man = new EquationManager(10);
-		SimulatedAnnealing sa = new SimulatedAnnealing(20,10,0,true, 10000, true);
+		SimulatedAnnealing sa = new SimulatedAnnealing(40,100,0,true, 10000, true);
 		sa.setStateManager(man);
 		sa.solve();
 	}
 	
 	public void RunMCKQTest(){
-		KQueensManager qm = new KQueensManager(24);
+		KQueensManager qm = new KQueensManager(20);
 		MinConflicts kmc = new MinConflicts(true);
 		kmc.setStateManager(qm);
 		kmc.solve();
@@ -45,6 +46,22 @@ public class UserInterface {
 		mc.solve();
 	}
 	
+	public void RunSASUTest(){
+		SudokuManager man = new SudokuManager("sudoku2.txt");
+		SimulatedAnnealing sa = new SimulatedAnnealing(80,1,0.99,0,true, 1000, false);
+		sa.setStateManager(man);
+		sa.solve();
+		man.getState().display();
+	}
+	
+	public void RunMCSUTest(){
+		SudokuManager man = new SudokuManager("sudoku2.txt");
+		MinConflicts mc = new MinConflicts(true);
+		mc.setStateManager(man);
+		mc.solve();
+		man.getState().display();
+	}
+	
 	
 	
 	public static void main(String[] args) {
@@ -52,9 +69,11 @@ public class UserInterface {
 		//s.RunMCGCTest();
 		//s.RunMCKQTest();
 		//s.RunSAKQTest();
-		//s.RunSAKQTest();
-		s.RunMCGCTest();
 		//s.RunMCEQTest();
+		//s.RunSAKQTest();
+		//s.RunSAEQTest();
+		s.RunSASUTest();
+		
 		
 		
 	}

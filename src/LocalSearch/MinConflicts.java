@@ -4,6 +4,9 @@ package LocalSearch;
 public class MinConflicts extends ConstraintBasedLocalSearch {
 	public static final String className = MinConflicts.class.getName();
 	private int steps = 0;
+	public String getName(){
+		return className;
+	}
 	
 	public MinConflicts(boolean debug) {
 		super(debug);
