@@ -14,21 +14,21 @@ public class StatisticsRunner {
 	
 	private LocalStateManager[] getProblems(){
 		LocalStateManager [] problems = new LocalStateManager[9];
-		problems[0] = new EquationManager(10); 
-		problems[1] = new EquationManager(50);
-		problems[2] = new EquationManager(100); 
+		problems[0] = new EquationManager(5); 
+		problems[1] = new EquationManager(10);
+		problems[2] = new EquationManager(20); 
 		problems[3] = new GraphColorManager("graph-color-1.txt");
 		problems[4] = new GraphColorManager("graph-color-2.txt");
 		problems[5] = new GraphColorManager("graph-color-3.txt");
 		problems[6] = new KQueensManager(8);
-		problems[7] = new KQueensManager(25);
-		problems[8] = new KQueensManager(100);
+		problems[7] = new KQueensManager(16);
+		problems[8] = new KQueensManager(24);
 		return problems;
 	}
 	private ConstraintBasedLocalSearch[] getSolvers(){
 		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[2];
 		solvers[1] = new MinConflicts(false);
-		solvers[0] = new SimulatedAnnealing(20,100,0.02,0,false);
+		solvers[0] = new SimulatedAnnealing(20,100,0,false, 10000, true);
 		return solvers;
 	}
 	private void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm){
