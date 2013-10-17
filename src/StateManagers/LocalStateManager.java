@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import States.AbstractState;
-import States.ChessBoard;
 
 public abstract class LocalStateManager {
 	private AbstractState state;

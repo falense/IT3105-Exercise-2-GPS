@@ -189,12 +189,12 @@ class GUI{
 
 }
 public class GraphState extends AbstractState{
-	private Node nodes[] = null;
+	private Node nodeList[] = null;
 	private int K = 4;
 	private final String className = GraphState.class.getName();
 
 	public Node[] getNodes(){
-		return nodes;
+		return nodeList;
 	}
 	public void display(){
 		new GUI(this);
@@ -207,7 +207,6 @@ public class GraphState extends AbstractState{
 			System.err.println("File not found: " + filename);
 		}
 		String line = null;
-		Node nodeList[] = null;
 		try {
 			int row = 0;
 			int nodeCount = 0;
@@ -221,7 +220,6 @@ public class GraphState extends AbstractState{
 					nodeCount = Integer.parseInt(substrings[0]);
 					edgeCount = Integer.parseInt(substrings[1]);
 					nodeList = new Node[nodeCount];
-					//System.out.println(className + ": nodeCount " + nodeCount + " edgeCount " + edgeCount);
 				}
 				else if (row > 0 && row <= nodeCount){
 					int nodeIndex = Integer.parseInt(substrings[0]);
@@ -255,8 +253,6 @@ public class GraphState extends AbstractState{
 			for (Node n: nodeList){
 				n.updateCoord(minX,minY,maxX,maxY);
 			}
-			nodes = nodeList;
-			//new GUI(this);
 		} catch (IOException e) {
 			System.err.println("Reading from graph file failed");
 		}
@@ -265,30 +261,27 @@ public class GraphState extends AbstractState{
 		loadGraph(filename);
 	}
 	public GraphState(GraphState old){
-		nodes = new Node[old.nodes.length];
-		for (int i = 0; i < old.nodes.length; i++){
-			nodes[i] = old.nodes[i].copy();
+		nodeList = new Node[old.nodeList.length];
+		for (int i = 0; i < old.nodeList.length; i++){
+			nodeList[i] = old.nodeList[i].copy();
 		}
 	}
 	
-	@Override
 	public LinkedList<Integer> getVars() {
 		LinkedList<Integer> vars = new LinkedList<Integer>();
-		for (int i = 0; i < nodes.length; i++)
+		for (int i = 0; i < nodeList.length; i++)
 			vars.add(i);
 		return vars;
 	}
 
-	@Override
 	public int getNumberOfConflicts(int var) {
-		if (var >= 0 && var < nodes.length)
-			return nodes[var].getNumberOfConflicts();
+		if (var >= 0 && var < nodeList.length)
+			return nodeList[var].getNumberOfConflicts();
 		else{
 			throw new IndexOutOfBoundsException(className + "GetValue index out of bounds");
 		}
 	}
 
-	@Override
 	public LinkedList<Integer> getPossibleValues() {
 		LinkedList<Integer> values = new LinkedList<Integer>();
 		for (int i = 0; i < K; i++)
@@ -296,23 +289,22 @@ public class GraphState extends AbstractState{
 		return values;
 	}
 
-	@Override
 	public int getValue(int var) {
-		if (var >= 0 && var < nodes.length)
+		if (var >= 0 && var < nodeList.length)
 			return 0;
 		else{
 			throw new IndexOutOfBoundsException(className + "GetValue index out of bounds");
 		}
 	}
-	@Override
+	
 	public void setValue(int var, int value) {
-		if (var >= 0 && var < nodes.length)
-			nodes[var].setColor(value);
+		if (var >= 0 && var < nodeList.length)
+			nodeList[var].setColor(value);
 		else{
 			throw new IndexOutOfBoundsException(className + "SetValue index out of bounds");
 		}
 	}
-	@Override
+	
 	public AbstractState copy() {
 		return new GraphState(this);
 	}

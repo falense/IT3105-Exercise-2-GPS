@@ -1,9 +1,5 @@
 package LocalSearch;
 
-
-
-
-
 import java.util.ArrayList;
 
 import States.AbstractState;
@@ -49,7 +45,6 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		this.linear = linear;
 	}
 	
-	
 	public void solve(){
 		Temperature = MaxTemprature;
 		currentScore = -sm.getState().getNumberOfConflicts();
@@ -57,7 +52,6 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		//AbstractState currentState = manager.getState();
 		
 		while (stepsToSolve < maxRuns && currentScore < targetScore ){
-			
 			AbstractState tempState = null;
 			AbstractState bestState = null;
 			
@@ -79,26 +73,15 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				
 			}
 			
-			
-			
 			double q = (tempMaxScore-currentScore)/(-currentScore);
-			
 			//System.out.println("Value for q = " +q);
-			
-			
 			
 			double exponent = (-q/Temperature);
 			//System.out.println("Value for exponent = " +exponent);
 			
-			double p = Math.min(1, 
-									Math.pow(2.71828182846, exponent	));				
-											
-											
-			
+			double p = Math.min(1, Math.pow(2.71828182846, exponent	));				
 			
 			double x = Math.random();
-			
-			
 			
 			if ( x > p ){
 				sm.setState(bestState);
@@ -108,22 +91,13 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				print("Explore!");
 			}
 			
-			
-			
 			//temperature:
 			if (linear){
-				//linear
-				Temperature = Math.max(Temperature-DeltaTemperature, 0.1);
+				Temperature = Math.max(Temperature-DeltaTemperature, 0.1); //linear
 			}
 			else {
-				//rate of decay
-				Temperature = Math.max(Temperature*(1-DeltaTemperature), 0.1);
+				Temperature = Math.max(Temperature*(1-DeltaTemperature), 0.1);	//rate of decay
 			}
-			
-			
-			
-			
-			
 			
 			stepsToSolve++;
 			currentScore = -sm.getState().getNumberOfConflicts();
@@ -132,6 +106,8 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			print("Current Temperature: " + Temperature);
 	
 		}
+
+		if (debug) sm.getState().display();
 	} 
 	
 	@Override
@@ -139,15 +115,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		return stepsToSolve;
 	}
 
-	@Override
-	public int getSolutionNumConflicts() {
-		return sm.getState().getNumberOfConflicts();
-	}
-
-	@Override
 	public void clear() {
 		stepsToSolve = 0;
 	}
-
-	
 }

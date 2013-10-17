@@ -15,11 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ChessBoard extends AbstractState  {
-	//private boolean[][] board;
 	private int[][] queens;
 	
 	public ChessBoard(int size){
-		//this.board = new boolean[size][size];
 		this.queens = new int[size][4];
 		for (int i = 0 ; i < size ; i++){
 				queens[i][0] = i;
@@ -27,9 +25,7 @@ public class ChessBoard extends AbstractState  {
 		for (int k = 0 ; k < size ; k++){
 			setRandomRow(k);
 		}
-		
 	}
-	
 	
 	public ChessBoard(ChessBoard oldBoard){
 		this.queens = new int[oldBoard.getSize()][4];
@@ -92,7 +88,7 @@ public class ChessBoard extends AbstractState  {
 	}
 	
 
-	@Override	//done
+	@Override
 	public LinkedList<Integer> getVars() { 
 		LinkedList<Integer> vars = new LinkedList<Integer>();
 		for (int i = 0; i < queens.length; i++)
@@ -100,12 +96,12 @@ public class ChessBoard extends AbstractState  {
 		return vars;
 	}
 
-	@Override	//done
+	@Override
 	public int getNumberOfConflicts(int var) {
 		return findConflicts(var);
 	}
 
-	@Override	//done
+	@Override
 	public LinkedList<Integer> getPossibleValues() {
 		LinkedList<Integer> vars = new LinkedList<Integer>();
 		for (int i = 0; i < queens.length; i++)
@@ -114,12 +110,12 @@ public class ChessBoard extends AbstractState  {
 	}
 
 
-	@Override	//done
+	@Override
 	public int getValue(int var) {
 		return getQueenLoc(var);
 	}
 
-	@Override	//done
+	@Override
 	public void setValue(int var, int value) {
 		setQueen(var,value);
 	}
