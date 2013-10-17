@@ -4,6 +4,7 @@ package LocalSearch;
 
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import States.AbstractState;
@@ -39,9 +40,14 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		if (linear){
 			temp = MaxTemprature/maxRuns;
 		} else {
-			temp = MaxTemprature/maxRuns;
+			double MR = 0.1 / (1.0*maxRuns);
+			double MT = Math.log(1/MaxTemprature);
+			temp = Math.pow(Math.E,MR*MT);
+			System.out.println("deltaTemp is : " +temp);
+			
+			
 		}
-		this.DeltaTemperature = 
+		this.DeltaTemperature = temp;
 		this.numberNeighbours = numberNeighbours;
 		this.MaxTemprature = MaxTemprature;
 		this.targetScore = targetScore;
@@ -117,7 +123,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			}
 			else {
 				//rate of decay
-				Temperature = Math.max(Temperature*(1-DeltaTemperature), 0.1);
+				Temperature = Math.max(Temperature*(DeltaTemperature), 0.1);
 			}
 			
 			

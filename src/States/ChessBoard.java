@@ -5,8 +5,10 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -66,6 +68,25 @@ public class ChessBoard extends AbstractState  {
 		int loc = new Random().nextInt(queens.length);
 		setQueen(y,loc);
 	}
+	
+	@Override
+	public int getNumberOfConflicts(){
+		Set<Integer> rowList = new HashSet();
+		Set<Integer> diffList = new HashSet();
+		Set<Integer> sumList = new HashSet();
+		int confs = 0;
+		for (int i = 0 ; i < queens.length ; i++){
+			if (!rowList.add(queens[i][1]))
+				confs++;
+			if (!diffList.add(queens[i][2]))
+				confs++;
+			if (!sumList.add(queens[i][3]))
+				confs++;
+		}
+		return confs;
+	}
+	
+	
 	
 	private int findConflicts(int var){
 		int x = queens[var][1];
