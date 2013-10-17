@@ -20,6 +20,15 @@ public class UserInterface {
 		sa.solve();
 		man.getState().display();
 	}
+	
+	public void RunSAEQTest(){
+		EquationManager man = new EquationManager(10);
+		SimulatedAnnealing sa = new SimulatedAnnealing(20,10,0,true, 10000, true);
+		sa.setStateManager(man);
+		sa.solve();
+		man.getState().display();
+	}
+	
 	public void RunMCKQTest(){
 		KQueensManager qm = new KQueensManager(24);
 		MinConflicts kmc = new MinConflicts(true);
@@ -42,12 +51,17 @@ public class UserInterface {
 		man.getState().display();
 	}
 	
+	
+	
+	
 	public static void main(String[] args) {
 		UserInterface s = new UserInterface();
 		//s.RunMCGCTest();
-		s.RunMCKQTest();
+		//s.RunMCKQTest();
 		//s.RunSAKQTest();
 		//s.RunSAKQTest();
+		s.RunSAEQTest();
+		//s.RunMCEQTest();
 		
 		
 	}
