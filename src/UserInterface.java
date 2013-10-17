@@ -54,7 +54,7 @@ public class UserInterface {
 	
 	public void RunSASUTest(){
 		SudokuManager man = new SudokuManager("sudoku3.txt");
-		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,1,0,true, 1000, true);
+		SimulatedAnnealing sa = new SimulatedAnnealing(80,1,0.99,0,true, 1000, false);
 		sa.setStateManager(man);
 		sa.solve();
 		man.getState().display();

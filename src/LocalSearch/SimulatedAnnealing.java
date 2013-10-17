@@ -6,6 +6,7 @@ package LocalSearch;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Random;
 
 import States.AbstractState;
 
@@ -80,10 +81,12 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 				if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
 					tempMaxScore = tempScore;
 					bestState = tempState;
-					print("Best Neighbour Score = " + (-tempMaxScore));
+					
 				}
 				
 			}
+			
+			print("Best Neighbour Score = " + (-tempMaxScore));
 			
 			
 			
@@ -96,34 +99,38 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			double exponent = (-q/Temperature);
 			//System.out.println("Value for exponent = " +exponent);
 			
+			//if ()
 			double p = Math.min(1, 
-									Math.pow(2.71828182846, exponent	));				
+									Math.pow(Math.E, exponent	));				
 											
 											
 			
 			
 			double x = Math.random();
-			
-			
+			print("Weighted difference: "+q);
+			print("Current Temperature: " + Temperature);
+			print("Exponent: "+exponent);
 			
 			if ( x > p ){
 				sm.setState(bestState);
-				print("Exploit!");
+				print("Random value: "+x+" > " +p+ "  -->  Exploit!");
 			} else {
-				sm.setState(newStates.get((int)(Math.random()*numberNeighbours)));
-				print("Explore!");
+				sm.setState(newStates.get(new Random().nextInt(numberNeighbours)));
+				print("Random value: "+x+" < " +p+ "  -->  Explore!");
 			}
+			
+			print("");
 			
 			
 			
 			//temperature:
 			if (linear){
 				//linear
-				Temperature = Math.max(Temperature-DeltaTemperature, 0.1);
+				Temperature = Math.max(Temperature-DeltaTemperature, 0);
 			}
 			else {
 				//rate of decay
-				Temperature = Math.max(Temperature*(DeltaTemperature), 0.1);
+				Temperature = Math.max(Temperature*(DeltaTemperature), 0);
 			}
 			
 			
@@ -135,7 +142,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			currentScore = -sm.getState().getNumberOfConflicts();
 			print("Round number: " +stepsToSolve);
 			print("Current conflicts: " + (-currentScore));
-			print("Current Temperature: " + Temperature);
+			
 	
 		}
 	} 

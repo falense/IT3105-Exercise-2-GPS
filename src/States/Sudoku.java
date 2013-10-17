@@ -17,8 +17,7 @@ public class Sudoku extends AbstractState{
 		variables = new LinkedList<Integer>();
 		loadBoard(filename);
 		//reserveVariables();
-		makeNumbersAppear();
-		System.out.println("potential variables is: "+variables.size());
+		makeNumbersAppear();		
 		
 	}
 	
@@ -29,6 +28,18 @@ public class Sudoku extends AbstractState{
 		variables = oldSudoku.getVars();
 		for (int i = 0 ; i < size*size ; i++){
 			setValue(i, oldSudoku.getValue(i));
+		}
+	}
+	
+	public void printList(LinkedList<Integer> list){
+		for (int i : list){
+			System.out.print(i+" ");
+		}
+	}
+	
+	public void printList(int[] list){
+		for (int i : list){
+			System.out.print(i+" ");
 		}
 	}
 	
