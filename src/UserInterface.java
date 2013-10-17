@@ -53,15 +53,15 @@ public class UserInterface {
 	}
 	
 	public void RunSASUTest(){
-		SudokuManager man = new SudokuManager("sudoku4.txt");
-		SimulatedAnnealing sa = new SimulatedAnnealing(20,100,1,0,true, 1000, true);
+		SudokuManager man = new SudokuManager("sudoku2.txt");
+		SimulatedAnnealing sa = new SimulatedAnnealing(80,1,0.99,0,true, 1000, false);
 		sa.setStateManager(man);
 		sa.solve();
 		man.getState().display();
 	}
 	
 	public void RunMCSUTest(){
-		SudokuManager man = new SudokuManager("sudoku4.txt");
+		SudokuManager man = new SudokuManager("sudoku2.txt");
 		MinConflicts mc = new MinConflicts(true);
 		mc.setStateManager(man);
 		mc.solve();
