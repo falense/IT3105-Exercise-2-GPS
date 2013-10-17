@@ -5,10 +5,6 @@ import StateManagers.EquationManager;
 import StateManagers.GraphColorManager;
 import StateManagers.KQueensManager;
 import StateManagers.LocalStateManager;
-import States.EquationState;
-class Problem{
-	
-}
 public class StatisticsRunner {
 	public static final int maxRuns = 20;
 	
