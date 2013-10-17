@@ -12,18 +12,15 @@ public class SudokuManager extends LocalStateManager{
 	public SudokuManager(String soduFile) {
 		super(new Sudoku(soduFile));
 		this.sudokufile = soduFile;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return className;
+		return className + " " + sudokufile;
 	}
 
 	@Override
 	public LocalStateManager copy() {
-		// TODO Auto-generated method stub
 		return new SudokuManager(sudokufile);
 	}
 

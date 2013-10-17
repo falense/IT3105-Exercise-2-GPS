@@ -19,4 +19,5 @@ public abstract class ConstraintBasedLocalSearch {
 	public abstract void solve();
 	public abstract int getStepsToSolve();
 	public abstract int getSolutionNumConflicts();
+	public abstract String getName();
 }

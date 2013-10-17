@@ -5,6 +5,7 @@ import StateManagers.EquationManager;
 import StateManagers.GraphColorManager;
 import StateManagers.KQueensManager;
 import StateManagers.LocalStateManager;
+import StateManagers.SudokuManager;
 import States.EquationState;
 class Problem{
 	
@@ -13,22 +14,25 @@ public class StatisticsRunner {
 	public static final int maxRuns = 20;
 	
 	private LocalStateManager[] getProblems(){
-		LocalStateManager [] problems = new LocalStateManager[9];
-		problems[0] = new EquationManager(5); 
-		problems[1] = new EquationManager(10);
-		problems[2] = new EquationManager(20); 
-		problems[3] = new GraphColorManager("graph-color-1.txt");
-		problems[4] = new GraphColorManager("graph-color-2.txt");
-		problems[5] = new GraphColorManager("graph-color-3.txt");
-		problems[6] = new KQueensManager(8);
-		problems[7] = new KQueensManager(16);
-		problems[8] = new KQueensManager(24);
+		LocalStateManager [] problems = new LocalStateManager[12];
+		problems[0] = new SudokuManager("sudoku1.txt"); 
+		problems[1] = new SudokuManager("sudoku2.txt");
+		problems[2] = new SudokuManager("sudoku3.txt"); 
+		problems[3] = new EquationManager(5); 
+		problems[4] = new EquationManager(10);
+		problems[5] = new EquationManager(20); 
+		problems[6] = new GraphColorManager("graph-color-1.txt");
+		problems[7] = new GraphColorManager("graph-color-2.txt");
+		problems[8] = new GraphColorManager("graph-color-3.txt");
+		problems[9] = new KQueensManager(8);
+		problems[10] = new KQueensManager(25);
+		problems[11] = new KQueensManager(100);
 		return problems;
 	}
 	private ConstraintBasedLocalSearch[] getSolvers(){
 		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[2];
-		solvers[1] = new MinConflicts(false);
-		solvers[0] = new SimulatedAnnealing(20,100,0,false, 10000, true);
+		solvers[0] = new MinConflicts(false);
+		solvers[1] = new SimulatedAnnealing(20,100,0,false, 10000, true);
 		return solvers;
 	}
 	private void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm){
@@ -66,7 +70,7 @@ public class StatisticsRunner {
 		stepCountStddev = Math.round(Math.sqrt(stepCountStddev/maxRuns));
 		conflictsInSolutionsStddev = Math.round(Math.sqrt(conflictsInSolutionsStddev/maxRuns));
 		
-		System.out.println("\n\nAlgorithm: " + MinConflicts.className);
+		System.out.println("\n\nAlgorithm: " + solver.getName());
 		System.out.println("Problem: " + g.getName());
 		
 		System.out.println("Number of runs: " + maxRuns);

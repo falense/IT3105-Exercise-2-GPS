@@ -16,9 +16,8 @@ public class Sudoku extends AbstractState{
 	public Sudoku(String filename) {
 		variables = new LinkedList<Integer>();
 		loadBoard(filename);
-		//reserveVariables();
-		makeNumbersAppear();
-		System.out.println("potential variables is: "+variables.size());
+		randomizeVariables();
+		//System.out.println("potential variables is: "+variables.size());
 		
 	}
 	
@@ -67,86 +66,68 @@ public class Sudoku extends AbstractState{
 		
 		reserveVariables();
 	}
-	private int getNumber(int x, int y){
-		return board[x][y];
-	}
-	
 	private void reserveVariables(){
-		for (int y = 0; y < size*size; y++){
-			if(getValue(y)==0)
-				variables.add(y);
+		for (int var = 0; var < size*size; var++){
+			if(getValue(var)==0)
+				variables.add(var);
 		}
 	}
 	
 	private int getRandomValue(){
 		int random = new Random().nextInt(size);
-				return random + 1;
+		return random + 1;
 	}
 	
-	private void makeNumbersAppear(){
+	private void randomizeVariables(){
 		for (int x : variables){
 			setValue(x, getRandomValue() );
 			
 		}
-		System.out.println("Initial randomized board:");
-		display();
-		System.out.println("");
+		//System.out.println("Initial randomized board:");
+		//display();
+		//System.out.println("");
 	}
 	
-	private LinkedList<Integer> returnSquare(int i, int j){
+	private int[] returnSquare(int i, int j){
 		//size = 9;
 		//squares = 3;
 		
-		LinkedList<Integer> returnList = new LinkedList<Integer>();
+		int[] returnList = new int[size];
 		
-		int ySquare = (int) Math.floor(1.0*(i)/squares);
-		int xSquare = (int) Math.floor(1.0*(j)/squares);
+		int xSquare = i/squares; //(i-i%squares)/squares;
+		int ySquare = j/squares; //(j-j%squares)/squares;
 		
+		for (int x = 0; x < squares; x++){
+			for (int y = 0; y < squares; y++){
+				returnList[x*squares+y] = board[squares*xSquare+x][squares*ySquare+y];
+			}
+		}
+		return returnList;
+	}
+	
+	private int[] returnRow(int i){
+		int[] returnList = new int[size];
 		for (int y = 0; y < size; y++){
-			for (int x = 0; x < size; x++){
-				if ( (int) Math.floor(1.0*(y)/squares) == ySquare && (int) Math.floor(1.0*(x)/squares)==xSquare){
-					if (!(i==y && j==x)){
-							returnList.add(getNumber(y,x));
-					}
-				}
-				
-					
-			}
+			returnList[y] = board[i][y];
 		}
 		return returnList;
 	}
 	
-	private LinkedList<Integer> returnRow(int i, int j){
-		LinkedList<Integer> returnList = new LinkedList<Integer>();
+	private int[] returnColumn(int j){
+		int[] returnList = new int[size];
 		for (int x = 0; x < size; x++){
-			if(j!=x){
-				returnList.add(getNumber(i, x));
-			}
+			returnList[x] =  board[x][j];
 		}
 		return returnList;
 	}
 	
-	private LinkedList<Integer> returnColumn(int i, int j){
-		LinkedList<Integer> returnList = new LinkedList<Integer>();
-		for (int x = 0; x < size; x++){
-			if(i!=x){
-				returnList.add(getNumber(x, j));
-			}
-		}
-		return returnList;
-	}
-	
-	private int[] makeVar(int var){
+	private int[] convVarToCoord(int var){
 		int[] list = new int[2];
-		list[0] = (int) Math.floor(1.0*var/size);
-		list[1] = var % size;
+		list[0] = var/size;
+		list[1] = var%size;
 		return list;
 	}
 	
-	
-	private void setNumber(int x, int y, int value){
-		this.board[x][y] = value;
-	}
 
 	@Override
 	public LinkedList<Integer> getVars() {
@@ -155,61 +136,64 @@ public class Sudoku extends AbstractState{
 
 	@Override
 	public int getNumberOfConflicts(int var) {
-		int[] coord = makeVar(var);
-		LinkedList<Integer> columns = returnColumn(coord[0], coord[1]);
-		LinkedList<Integer> rows = returnRow(coord[0], coord[1]);
-		LinkedList<Integer> square = returnSquare(coord[0], coord[1]);
-		int myNumber = getValue(var);
-		int wrongs = 0;
-		
-		for (int i : columns){
-			if(myNumber==i)
-				wrongs++;
-		}
-		
-		for (int j : rows){
-			if(myNumber==j)
-				wrongs++;
-		}
-		
+		int[] coord = convVarToCoord(var);
+		int[] row = returnRow(coord[0]);
+		int[] column = returnColumn(coord[1]);
+		int[] square = returnSquare(coord[0], coord[1]);
+		int varValue = getValue(var);
+		int conflicts = -3;
+
 		for (int k : square){
-			if(myNumber==k)
-				wrongs++;
+			if(varValue==k){
+				conflicts++;
+			}
 		}
-		return wrongs;
+		for (int j : row){
+			if(varValue==j){
+				conflicts++;
+			}
+		}
+		for (int i : column){
+			if(varValue==i){
+				conflicts++;
+			}
+		}
+
+		return conflicts;
 	}
 
 	@Override
 	public LinkedList<Integer> getPossibleValues() {
-		LinkedList<Integer> vars = new LinkedList<Integer>();
-		for (int i = 1; i < size; i++){
-			vars.add(i);
+		LinkedList<Integer> values = new LinkedList<Integer>();
+		for (int i = 1; i <= size; i++){
+			values.add(i);
 		}
-		return vars;
+		return values;
 	}
 
 
 	
 	@Override
 	public int getValue(int var) {
-		int[] vars = makeVar(var);
-		return getNumber(vars[0],vars[1]);
+		int[] vars = convVarToCoord(var);
+		return board[vars[0]][vars[1]];
 	}
 
 	@Override
 	public void setValue(int var, int value) {
-		int[] vars = makeVar(var);
-		setNumber(vars[0],vars[1],value);
+		int[] coord = convVarToCoord(var);
+		board[coord[0]][coord[1]] = value;
 	}
 
 	@Override
 	public void display() {
 		for (int i = 0; i < size; i++){
-			System.out.println();
 			for (int j = 0; j < size; j++){
 				System.out.print(board[i][j]+" ");		
 			}
+			System.out.println();
 		}
+		System.out.println("Confl. per var: " + (float)getNumberOfConflicts()/variables.size());
 	}
 
 	@Override

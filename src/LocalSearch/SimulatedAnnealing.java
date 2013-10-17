@@ -20,7 +20,11 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	private int numberNeighbours;
 	private int maxRuns;
 	private boolean linear;
+	public static final String className = SimulatedAnnealing.class.getName();
 	
+	public String getName(){
+		return className;
+	}
 	//example SimulatedAnnealing(20,100,2,0);
 	
 	public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug, int maxRuns, boolean linear){
