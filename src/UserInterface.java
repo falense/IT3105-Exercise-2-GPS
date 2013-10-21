@@ -14,6 +14,7 @@ import StateManagers.SudokuManager;
 
 public class UserInterface {
 	private static BufferedReader br;
+	private static boolean debug = false;
 
 	public static void main(String[] args) {
 		
@@ -48,48 +49,37 @@ public class UserInterface {
 			currentSearch.setStateManager(currentManager);
 			currentSearch.solve();
 			currentManager.getState().display();
-			
 
-
-			System.out.println("Do you want to play again?");
-			System.out.println("1: Yes");
-			System.out.println("2: No");
-			
-			try {	
-				temp = br.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				temp = "2";
-			}
-			if (Integer.parseInt(temp)!=1){
-				System.out.println("Exiting GPS");
-				System.exit(0);				
-			}
-			
-		
 		}
 	
 	}
 	private static ConstraintBasedLocalSearch findMethod(String temp) {
 		if(Integer.parseInt(temp)==1)
-			return new SimulatedAnnealing(20,100,0,false, 10000, true);
+			return new SimulatedAnnealing(20,100,0,debug, 10000, true);
 		else
-			return new MinConflicts(false);
+			return new MinConflicts(debug);
 	}
 	private static LocalStateManager findManager(String in) {
+		if (in=="")
+			in="0";
 		int temp = Integer.parseInt(in);
-		System.out.println("Difficulty of puzze: 1: Easy, 2: Medium or 3: Hard.");
-		System.out.println("Enter difficulty (1, 2 or 3):");
-		String sIn;
-		try {	
-			sIn = br.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			sIn = "1";
+		int number = 0;
+		String sIn = "0";
+		
+		if(temp!=5&&temp!=6){
+			System.out.println("Difficulty of puzze: 1: Easy, 2: Medium or 3: Hard.");
+			System.out.println("Enter difficulty (1, 2 or 3):");
+			
+			try {	
+				sIn = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				sIn = "1";
+			}
+			
+			number = Integer.parseInt(sIn);
 		}
-		int number = Integer.parseInt(sIn);
 		switch (temp){
 		case 1:
 			return new GraphColorManager("graph-color-"+sIn+".txt");
@@ -114,9 +104,15 @@ public class UserInterface {
 			default: 
 				return new EquationManager(4);
 			}
-			
+		case 5:
+			debug = !debug;
+			return new KQueensManager(8);
+		case 6:
+			System.out.println("Exiting GPS");
+			System.exit(0);
 			
 		default:
+			System.out.println("No valid choices, using default: K-Queens(8).");
 			return new KQueensManager(8);
 		}
 	}
@@ -127,6 +123,8 @@ public class UserInterface {
 		System.out.println("2: K-Queens");
 		System.out.println("3: Sudoku");
 		System.out.println("4: Equation");
+		System.out.println("5: Toggle debug-mode on/off");
+		System.out.println("6: Exit program");
 		System.out.println("Enter choice:");
 		
 	}
