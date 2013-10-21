@@ -15,6 +15,15 @@ import StateManagers.SudokuManager;
 public class UserInterface {
 	private static BufferedReader br;
 	private static boolean debug = false;
+	private static boolean isProblem = false;
+	private static int numberNeighbours = 20;
+	private static int MaxTemprature = 10;
+	private static double DeltaTemprature = 0;
+	private static int maxRuns = 10000;
+	
+	
+	//(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug, int maxRuns, boolean linear)
+	
 
 	public static void main(String[] args) {
 		
@@ -34,28 +43,34 @@ public class UserInterface {
 			
 			LocalStateManager currentManager = findManager(temp);
 			
-			printSearchMethod();
-			
-			try {	
-				temp = br.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				temp = "1";
+			if(isProblem){
+				printSearchMethod();
+				
+				try {	
+					temp = br.readLine();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					temp = "1";
+				}
+				
+				ConstraintBasedLocalSearch currentSearch = findMethod(temp);
+				
+				currentSearch.setStateManager(currentManager);
+				currentSearch.solve();
+				currentManager.getState().display();
 			}
-			
-			ConstraintBasedLocalSearch currentSearch = findMethod(temp);
-			
-			currentSearch.setStateManager(currentManager);
-			currentSearch.solve();
-			currentManager.getState().display();
-
 		}
 	
 	}
+	
+
 	private static ConstraintBasedLocalSearch findMethod(String temp) {
 		if(Integer.parseInt(temp)==1)
-			return new SimulatedAnnealing(20,100,0,debug, 10000, true);
+			if(DeltaTemprature<=0)
+				return new SimulatedAnnealing(numberNeighbours,MaxTemprature,0,debug, maxRuns, true);
+			else 
+				return new SimulatedAnnealing(numberNeighbours,MaxTemprature,DeltaTemprature,0,debug, maxRuns, true);
 		else
 			return new MinConflicts(debug);
 	}
@@ -66,8 +81,11 @@ public class UserInterface {
 		int number = 0;
 		String sIn = "0";
 		
-		if(temp!=5&&temp!=6){
-			System.out.println("Difficulty of puzze: 1: Easy, 2: Medium or 3: Hard.");
+
+
+		switch (temp){
+		case 1:
+			System.out.println("Difficulty of puzzle: 1: Easy, 2: Medium or 3: Hard.");
 			System.out.println("Enter difficulty (1, 2 or 3):");
 			
 			try {	
@@ -75,45 +93,131 @@ public class UserInterface {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				sIn = "1";
 			}
-			
-			number = Integer.parseInt(sIn);
-		}
-		switch (temp){
-		case 1:
+			isProblem = true;
 			return new GraphColorManager("graph-color-"+sIn+".txt");
 		case 2:
-			switch(number){
-			case 2:
-				return new KQueensManager(25);
-			case 3:
-				return new KQueensManager(1000);
-			default: 
-				return new KQueensManager(8);
+			System.out.println("Enter the size of the board:");
+			
+			try {	
+				sIn = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			isProblem = true;
+			return new KQueensManager(Integer.parseInt(sIn));
 		case 3:
+			System.out.println("Difficulty of puzzle: 1: Easy, 2: Medium or 3: Hard.");
+			System.out.println("Enter difficulty (1, 2 or 3):");
+			
+			try {	
+				sIn = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			isProblem = true;
 			return new SudokuManager("sudoku"+sIn+".txt");
 		case 4:
+			System.out.println("Enter the dimensions of the equation:");
 			
-			switch(number){
-			case 2:
-				return new EquationManager(10);
-			case 3:
-				return new EquationManager(100);
-			default: 
-				return new EquationManager(4);
+			try {	
+				sIn = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			isProblem = true;
+			return new EquationManager(Integer.parseInt(sIn));
+
 		case 5:
+			isProblem = false;
 			debug = !debug;
-			return new KQueensManager(8);
+			return null;
 		case 6:
+			boolean done = false;
+			
+			while(!done){
+				System.out.println("Current parameters are:");
+				System.out.println("1: Neighbours generated: 	"+numberNeighbours);
+				System.out.println("2: Maximum/Initial temperature: "+MaxTemprature);
+				System.out.println("3: Delta temperature: 		" + (DeltaTemprature==0 ? (MaxTemprature/maxRuns) : DeltaTemprature));
+				System.out.println("4: Max iterations: 		"+maxRuns);
+				System.out.println("5: Exit to main-menu");
+				System.out.println("Enter your selection:");
+				
+				try {	
+					sIn = br.readLine();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				int selection = Integer.parseInt(sIn);
+				
+				
+				switch(selection){
+				case 1:
+					System.out.println("Enter new value for neighbours generated:");
+					try {	
+						sIn = br.readLine();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					numberNeighbours = Integer.parseInt(sIn);
+					System.out.println("New value for neighbours generated: "+numberNeighbours);
+					break;
+				case 2:
+					System.out.println("Enter new value for Maximum/Initial temperature:");
+					try {	
+						sIn = br.readLine();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					MaxTemprature = Integer.parseInt(sIn);
+					System.out.println("New value for Maximum/Initial temperature: "+MaxTemprature);
+					break;
+				case 3:
+					System.out.println("Enter new value for Delta Temperature:");
+					try {	
+						sIn = br.readLine();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					DeltaTemprature = Double.parseDouble(sIn);
+					System.out.println("New value for Maximum/Initial temperature: "+(DeltaTemprature==0 ? (MaxTemprature/maxRuns) : DeltaTemprature));
+					break;
+				case 4:
+					System.out.println("Enter new value for Max iterations:");
+					try {	
+						sIn = br.readLine();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					maxRuns = Integer.parseInt(sIn);
+					System.out.println("New value for Max iterations: "+maxRuns);
+					break;
+				default:
+					done=true;
+					break;
+					
+				}
+
+			}
+			isProblem = false;
+			return null;
+		case 7:
 			System.out.println("Exiting GPS");
 			System.exit(0);
 			
 		default:
-			System.out.println("No valid choices, using default: K-Queens(8).");
-			return new KQueensManager(8);
+			System.out.println("No valid choices selected");
+			isProblem = false;
+			return null;
 		}
 	}
 	
@@ -123,8 +227,10 @@ public class UserInterface {
 		System.out.println("2: K-Queens");
 		System.out.println("3: Sudoku");
 		System.out.println("4: Equation");
-		System.out.println("5: Toggle debug-mode on/off");
-		System.out.println("6: Exit program");
+		System.out.println("");
+		System.out.println("5: Toggle Debug-mode on/off");
+		System.out.println("6: Modify variables for Simulated Annealing");
+		System.out.println("7: Exit program");
 		System.out.println("Enter choice:");
 		
 	}

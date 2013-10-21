@@ -31,7 +31,7 @@ public class StatisticsRunner {
 	private ConstraintBasedLocalSearch[] getSolvers(){
 		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[2];
 		solvers[0] = new MinConflicts(false);
-		solvers[1] = new SimulatedAnnealing(20,100,0,false, 10000, true);
+		solvers[1] = new SimulatedAnnealing(20,20,0,false, 10000, true);
 		return solvers;
 	}
 	private void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm){

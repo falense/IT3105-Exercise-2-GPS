@@ -43,7 +43,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		super(debug);
 		double temp;
 		if (linear){
-			temp = MaxTemprature/maxRuns;
+			temp = MaxTemprature/(1.0*maxRuns);
 		} else {
 			double MR = 0.1 / (1.0*maxRuns);
 			double MT = Math.log(1/MaxTemprature);
@@ -108,10 +108,13 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			double p = Math.min(1, 
 									Math.pow(Math.E, exponent	));				
 											
-											
+			double x = Math.random();						
+			//this might not be allowed:
+			if(tempMaxScore==targetScore)
+				x=2;
 			
 			
-			double x = Math.random();
+			
 			print("Weighted difference: "+q);
 			print("Current Temperature: " + Temperature);
 			print("Exponent: "+exponent);
@@ -131,11 +134,11 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			//temperature:
 			if (linear){
 				//linear
-				Temperature = Math.max(Temperature-DeltaTemperature, 0);
+				Temperature = Math.max(Temperature-DeltaTemperature, 0.0000001);
 			}
 			else {
 				//rate of decay
-				Temperature = Math.max(Temperature*(DeltaTemperature), 0);
+				Temperature = Math.max(Temperature*(DeltaTemperature), 0.0000001);
 			}
 			
 			
@@ -150,6 +153,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 			
 	
 		}
+		System.out.println("Steps: "+stepsToSolve+" Conflicts: "+(-currentScore));
 	} 
 	
 	@Override
