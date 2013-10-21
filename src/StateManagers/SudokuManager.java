@@ -1,7 +1,5 @@
 package StateManagers;
 
-import States.AbstractState;
-import States.GraphState;
 import States.Sudoku;
 
 public class SudokuManager extends LocalStateManager{

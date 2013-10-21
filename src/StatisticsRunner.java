@@ -6,7 +6,6 @@ import StateManagers.GraphColorManager;
 import StateManagers.KQueensManager;
 import StateManagers.LocalStateManager;
 import StateManagers.SudokuManager;
-import States.EquationState;
 class Problem{
 	
 }

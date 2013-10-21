@@ -1,6 +1,5 @@
 package StateManagers;
 
-import States.AbstractState;
 import States.GraphState;
 
 
@@ -13,6 +12,7 @@ public class GraphColorManager extends LocalStateManager {
 		this.graphfile = graphfile;
 	}
 	
+	@Override
 	public String getName(){
 		return className + " " + graphfile;
 	}

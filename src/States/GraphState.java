@@ -133,7 +133,8 @@ class GUI{
         vv.setPreferredSize(new Dimension(1000,1000)); 
 
         Transformer<Node,Paint> vertexColor = new Transformer<Node,Paint>() {
-            public Paint transform(Node i) {
+            @Override
+			public Paint transform(Node i) {
             	switch (i.getColor()){
             	case 0:
             		return Color.BLUE;
@@ -150,7 +151,8 @@ class GUI{
         };
         
         Transformer<Pair<Node>,Paint> edgeColor = new Transformer<Pair<Node>,Paint>() {
-            public Paint transform(Pair<Node> i) {
+            @Override
+			public Paint transform(Pair<Node> i) {
             	if (i.getFirst().getColor() == i.getSecond().getColor())
             		return Color.RED;
             	else
@@ -159,7 +161,8 @@ class GUI{
         };
         
         Transformer<Pair<Node>, Stroke> edgeStroke = new Transformer<Pair<Node>, Stroke>() {
-            public Stroke transform(Pair<Node> i) {
+            @Override
+			public Stroke transform(Pair<Node> i) {
                	if (i.getFirst().getColor() == i.getSecond().getColor()){
             		return new BasicStroke(3.0f);
             	}
@@ -170,7 +173,8 @@ class GUI{
         };
         
         Transformer<Node,Shape> vertexSize = new Transformer<Node,Shape>(){
-            public Shape transform(Node i){
+            @Override
+			public Shape transform(Node i){
                 Ellipse2D circle = new Ellipse2D.Double(-15, -15, 30, 30);
                 return circle;
             }
@@ -196,6 +200,7 @@ public class GraphState extends AbstractState{
 	public Node[] getNodes(){
 		return nodes;
 	}
+	@Override
 	public void display(){
 		new GUI(this);
 	}

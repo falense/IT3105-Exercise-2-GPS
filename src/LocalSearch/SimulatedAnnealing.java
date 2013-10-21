@@ -4,7 +4,6 @@ package LocalSearch;
 
 
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,6 +22,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	private boolean linear;
 	public static final String className = SimulatedAnnealing.class.getName();
 	
+	@Override
 	public String getName(){
 		return className;
 	}
@@ -61,6 +61,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	}
 	
 	
+	@Override
 	public void solve(){
 		Temperature = MaxTemprature;
 		currentScore = -sm.getState().getNumberOfConflicts();

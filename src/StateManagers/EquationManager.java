@@ -1,6 +1,5 @@
 package StateManagers;
 
-import States.AbstractState;
 import States.EquationState;
 
 public class EquationManager extends LocalStateManager {
