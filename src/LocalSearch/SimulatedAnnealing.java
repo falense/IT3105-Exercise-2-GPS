@@ -18,6 +18,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 	private boolean linear;
 	public static final String className = SimulatedAnnealing.class.getName();
 	
+	@Override
 	public String getName(){
 		return className;
 	}
@@ -38,7 +39,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		super(debug);
 		double temp;
 		if (linear){
-			temp = MaxTemprature/maxRuns;
+			temp = MaxTemprature/(1.0*maxRuns);
 		} else {
 			double MR = 0.1 / (1.0*maxRuns);
 			double MT = Math.log(1/MaxTemprature);
@@ -54,81 +55,102 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		this.maxRuns = maxRuns;
 		this.linear = linear;
 	}
-	
-	public void solve(){
-        Temperature = MaxTemprature;
-        currentScore = -sm.getState().getNumberOfConflicts();
-        print("Current Score = " + (-currentScore));
-        //AbstractState currentState = manager.getState();
-        
-        while (stepsToSolve < maxRuns && currentScore < targetScore ){
-                
-                AbstractState tempState = null;
-                AbstractState bestState = null;
-                
-                ArrayList<AbstractState> newStates= new ArrayList<AbstractState>();
-                double tempMaxScore = Double.MIN_VALUE;
-                double tempScore = Double.MIN_VALUE;
-                
-                for (int i = 0 ; i < numberNeighbours ; i++){
-                        tempState = sm.generateNeighbourState();
-                        newStates.add(tempState);
-                        tempScore = -tempState.getNumberOfConflicts();        
-                        
-                        //can the original state still be chosen? needs to be addressed maybe added...
-                        if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
-                                tempMaxScore = tempScore;
-                                bestState = tempState;
-                                
-                        }
-                        
-                }
-                
-                print("Best Neighbour Score = " + (-tempMaxScore));
-                
-                double q = (tempMaxScore-currentScore)/(-currentScore);
-                
-                //System.out.println("Value for q = " +q);
-                
-                double exponent = (-q/Temperature);
-                //System.out.println("Value for exponent = " +exponent);
-                
-                //if ()
-                double p = Math.min(1, Math.pow(Math.E, exponent));           
-                
-                double x = Math.random();
-                print("Weighted difference: "+q);
-                print("Current Temperature: " + Temperature);
-                print("Exponent: "+exponent);
-                
-                if ( x > p ){
-                        sm.setState(bestState);
-                        print("Random value: "+x+" > " +p+ "  -->  Exploit!");
-                } else {
-                        sm.setState(newStates.get(new Random().nextInt(numberNeighbours)));
-                        print("Random value: "+x+" < " +p+ "  -->  Explore!");
-                }
-                
-                print("");
-                //temperature:
-                if (linear){
-                        //linear
-                        Temperature = Math.max(Temperature-DeltaTemperature, 0);
-                }
-                else {
-                        //rate of decay
-                        Temperature = Math.max(Temperature*(DeltaTemperature), 0);
-                }
-                
-                stepsToSolve++;
-                currentScore = -sm.getState().getNumberOfConflicts();
-                print("Round number: " +stepsToSolve);
-                print("Current conflicts: " + (-currentScore));
-        		if (debug) sm.getState().display();
-        }
-	}
+	 @Override
+     public void solve(){
+             Temperature = MaxTemprature;
+             currentScore = -sm.getState().getNumberOfConflicts();
+             print("Current Score = " + (-currentScore));
+             //AbstractState currentState = manager.getState();
+             
+             while (stepsToSolve < maxRuns && currentScore < targetScore ){
+                     
+                     AbstractState tempState = null;
+                     AbstractState bestState = null;
+                     
+                     ArrayList<AbstractState> newStates= new ArrayList<AbstractState>();
+                     double tempMaxScore = Double.MIN_VALUE;
+                     double tempScore = Double.MIN_VALUE;
+                     
+                     for (int i = 0 ; i < numberNeighbours ; i++){
+                             tempState = sm.generateNeighbourState();
+                             newStates.add(tempState);
+                             tempScore = -tempState.getNumberOfConflicts();        
+                             
+                             //can the original state still be chosen? needs to be addressed maybe added...
+                             if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
+                                     tempMaxScore = tempScore;
+                                     bestState = tempState;
+                                     
+                             }
+                             
+                     }
+                     
+                     print("Best Neighbour Score = " + (-tempMaxScore));
+                     
+                     
+                     
+                     double q = (tempMaxScore-currentScore)/(-currentScore);
+                     
+                     //System.out.println("Value for q = " +q);
+                     
+                     
+                     
+                     double exponent = (-q/Temperature);
+                     //System.out.println("Value for exponent = " +exponent);
+                     
+                     //if ()
+                     double p = Math.min(1, 
+                                                                     Math.pow(Math.E, exponent        ));                                
+                                                                                     
+                     double x = Math.random();                                                
+                     //this might not be allowed:
+                     if(tempMaxScore==targetScore)
+                             x=2;
+                     
+                     
+                     
+                     print("Weighted difference: "+q);
+                     print("Current Temperature: " + Temperature);
+                     print("Exponent: "+exponent);
+                     
+                     if ( x > p ){
+                             sm.setState(bestState);
+                             print("Random value: "+x+" > " +p+ "  -->  Exploit!");
+                     } else {
+                             sm.setState(newStates.get(new Random().nextInt(numberNeighbours)));
+                             print("Random value: "+x+" < " +p+ "  -->  Explore!");
+                     }
+                     
+                     print("");
+                     
+                     
+                     
+                     //temperature:
+                     if (linear){
+                             //linear
+                             Temperature = Math.max(Temperature-DeltaTemperature, 0.0000001);
+                     }
+                     else {
+                             //rate of decay
+                             Temperature = Math.max(Temperature*(DeltaTemperature), 0.0000001);
+                     }
+                     
+                     
+                     
+                     
+                     
+                     
+                     stepsToSolve++;
+                     currentScore = -sm.getState().getNumberOfConflicts();
+                     print("Round number: " +stepsToSolve);
+                     print("Current conflicts: " + (-currentScore));
+                     
+     
+             }
+             System.out.println("Steps: "+stepsToSolve+" Conflicts: "+(-currentScore));
+     } 
 
-	
+
 	@Override
 	public int getStepsToSolve() {
 		return stepsToSolve;

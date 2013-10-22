@@ -11,6 +11,7 @@ public class GraphColorManager extends LocalStateManager {
 		this.graphfile = graphfile;
 	}
 	
+	@Override
 	public String getName(){
 		return className + " " + graphfile;
 	}
