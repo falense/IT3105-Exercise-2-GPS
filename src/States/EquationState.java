@@ -73,6 +73,7 @@ public class EquationState extends AbstractState {
 			System.out.print(solution[i] + " ");
 		}
 		System.out.println();
+		System.out.println("Number of conflicts:" + getNumberOfConflicts());
 	}
 	private int[] multiply(){
 		int [] res = new int[amatrix.length];

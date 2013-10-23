@@ -48,14 +48,17 @@ public abstract class LocalStateManager {
 				minConfValues.add(value);
 			}
 		}
-		//System.out.println("Variable " + var + " has minConflicts "  + minConflicts + "(" + minConfValues.size() + ") Total number of conflicts " + state.getNumberOfConflicts());
 		int rindex = new Random().nextInt(minConfValues.size());	
 		
 		state.setValue(var, minConfValues.get(rindex));
 	}
 	
-	public void setState(AbstractState bestState) {
-		this.state = bestState;
+	public void setState(AbstractState state) {
+		if (state == null){
+			System.out.println(getName() + "Attempting to set a null state") ;
+			throw new IndexOutOfBoundsException();
+		}
+		this.state = state;
 	}
 
 	public boolean done(){

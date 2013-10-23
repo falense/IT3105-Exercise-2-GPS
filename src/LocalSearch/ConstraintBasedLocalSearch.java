@@ -4,7 +4,7 @@ import StateManagers.LocalStateManager;
 
 public abstract class ConstraintBasedLocalSearch {
 	protected LocalStateManager sm;
-	private boolean debug;
+	protected boolean debug;
 	public ConstraintBasedLocalSearch(boolean debug) {
 		this.debug = debug;
 	}
@@ -15,9 +15,11 @@ public abstract class ConstraintBasedLocalSearch {
 	public void print(String out){
 		if (debug) System.out.println(out);
 	}
+	public int getSolutionNumConflicts(){
+		return sm.getState().getNumberOfConflicts();
+	}
 	public abstract void clear();
 	public abstract void solve();
 	public abstract int getStepsToSolve();
-	public abstract int getSolutionNumConflicts();
 	public abstract String getName();
 }

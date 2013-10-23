@@ -1,9 +1,5 @@
 package LocalSearch;
 
-
-
-
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -156,20 +152,13 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		print("Steps: "+stepsToSolve+" Conflicts: "+(-currentScore));
 	} 
 	
+
 	@Override
 	public int getStepsToSolve() {
 		return stepsToSolve;
 	}
 
-	@Override
-	public int getSolutionNumConflicts() {
-		return sm.getState().getNumberOfConflicts();
-	}
-
-	@Override
 	public void clear() {
 		stepsToSolve = 0;
 	}
-
-	
 }

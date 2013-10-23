@@ -13,6 +13,7 @@ import StateManagers.SudokuManager;
 
 
 public class UserInterface {
+
 	private static BufferedReader br;
 	private static boolean debug = false;
 	private static boolean isProblem = false;
@@ -23,6 +24,7 @@ public class UserInterface {
 	private static StatisticsRunner srunner= new StatisticsRunner();
 	
 	//(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug, int maxRuns, boolean linear)
+
 	
 
 	public static void main(String[] args) {
