@@ -20,7 +20,7 @@ public class UserInterface {
 	private static int MaxTemprature = 10;
 	private static double DeltaTemprature = 0;
 	private static int maxRuns = 10000;
-	
+	private static StatisticsRunner srunner= new StatisticsRunner();
 	
 	//(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug, int maxRuns, boolean linear)
 	
@@ -56,10 +56,19 @@ public class UserInterface {
 				
 				ConstraintBasedLocalSearch currentSearch = findMethod(temp);
 				
-				currentSearch.setStateManager(currentManager);
-				currentSearch.solve();
-				currentManager.getState().display();
+				howManyRuns();
+				int runs = Integer.parseInt(getInput());
+				if(runs==1){
+					currentSearch.setStateManager(currentManager);
+					currentSearch.solve();
+					currentManager.getState().display();
+				} else if (runs>1 && runs<100){
+					srunner.testSolver(currentSearch, currentManager, runs);
+				} else {
+					System.out.println("An invalid number was entered");
+				}
 			}
+			System.out.println("Going back to mainmeny");
 		}
 	
 	}
@@ -134,6 +143,7 @@ public class UserInterface {
 		case 5:
 			isProblem = false;
 			debug = !debug;
+			System.out.println("Debugging "+(debug ? "enabled" : "disabled"));
 			return null;
 		case 6:
 			boolean done = false;
@@ -221,7 +231,14 @@ public class UserInterface {
 		}
 	}
 	
+	private static void howManyRuns(){
+		System.out.println("How many times do you want to run the simulation?");
+		System.out.println("Enter a number:");
+	}
+	
 	private static void printProblemsMenu() {
+		System.out.println("");
+		System.out.println("");
 		System.out.println("Select Puzzle:");
 		System.out.println("1: Graphcoloring");
 		System.out.println("2: K-Queens");
@@ -233,6 +250,17 @@ public class UserInterface {
 		System.out.println("7: Exit program");
 		System.out.println("Enter choice:");
 		
+	}
+	
+	private static String getInput(){
+		String temp = "";
+		try {	
+			temp = br.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
 	}
 	
 	private static void printSearchMethod(){

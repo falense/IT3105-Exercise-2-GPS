@@ -10,9 +10,27 @@ class Problem{
 	
 }
 public class StatisticsRunner {
-	public static final int maxRuns = 20;
+	public static int maxRuns;
+	LocalStateManager sm;
+	ConstraintBasedLocalSearch solver;
+	
+	public StatisticsRunner(int maxRuns,LocalStateManager sm, ConstraintBasedLocalSearch solver){
+		this.maxRuns = maxRuns;
+		this.sm = sm;
+		this.solver = solver;
+	}
+	
+	public StatisticsRunner(){
+		this.maxRuns = 20;
+		//return StatisticsRunner(20,null,null);
+	}
+	
+	
 	
 	private LocalStateManager[] getProblems(){
+		LocalStateManager [] someProblems = new LocalStateManager[1];
+		someProblems[0] = new SudokuManager("sudoku1.txt");
+		/*	
 		LocalStateManager [] problems = new LocalStateManager[12];
 		problems[0] = new SudokuManager("sudoku1.txt"); 
 		problems[1] = new SudokuManager("sudoku2.txt");
@@ -26,23 +44,24 @@ public class StatisticsRunner {
 		problems[9] = new GraphColorManager("graph-color-1.txt");
 		problems[10] = new GraphColorManager("graph-color-2.txt");
 		problems[11] = new GraphColorManager("graph-color-3.txt");
-		return problems;
+		*/
+		return someProblems;
 	}
 	private ConstraintBasedLocalSearch[] getSolvers(){
 		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[2];
 		solvers[0] = new MinConflicts(false);
-		solvers[1] = new SimulatedAnnealing(20,20,0,false, 10000, true);
+		solvers[1] = new SimulatedAnnealing(20,10,0,false, 10000, true);
 		return solvers;
 	}
-	private void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm){
+	public void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm, int runs){
 		int totalStepCount = 0;
 		int totalConflictsInSolutions = 0;
-		double []stepsToSolve = new double[maxRuns];
-		double []solutionConflicts = new double[maxRuns];
+		double []stepsToSolve = new double[runs];
+		double []solutionConflicts = new double[runs];
 		double minStepCount = Integer.MAX_VALUE;
 		double minSolutionConflicts = Integer.MAX_VALUE;
 		LocalStateManager g = null;
-		for (int i = 0; i < maxRuns; i++){
+		for (int i = 0; i < runs; i++){
 			g =  sm.copy();
 			solver.setStateManager(g);
 			solver.solve();
@@ -60,19 +79,19 @@ public class StatisticsRunner {
 		}
 		double stepCountStddev = 0;
 		double conflictsInSolutionsStddev = 0;
-		double stepCountAvg = totalStepCount/maxRuns;
-		double conflictsInSolutionsAvg = totalConflictsInSolutions/maxRuns;
-		for (int i = 0; i < maxRuns; i++){
+		double stepCountAvg = totalStepCount/runs;
+		double conflictsInSolutionsAvg = totalConflictsInSolutions/runs;
+		for (int i = 0; i < runs; i++){
 			stepCountStddev += Math.pow((stepsToSolve[i]-stepCountAvg),2);
 			conflictsInSolutionsStddev +=  Math.pow((solutionConflicts[i]-conflictsInSolutionsAvg),2);
 		}
-		stepCountStddev = Math.round(Math.sqrt(stepCountStddev/maxRuns));
-		conflictsInSolutionsStddev = Math.round(Math.sqrt(conflictsInSolutionsStddev/maxRuns));
+		stepCountStddev = Math.round(Math.sqrt(stepCountStddev/runs));
+		conflictsInSolutionsStddev = Math.round(Math.sqrt(conflictsInSolutionsStddev/runs));
 		
 		System.out.println("\n\nAlgorithm: " + solver.getName());
 		System.out.println("Problem: " + g.getName());
 		
-		System.out.println("Number of runs: " + maxRuns);
+		System.out.println("Number of runs: " + runs);
 
 		System.out.println("\n\t AvgStepCount " + stepCountAvg); 
 		System.out.println("\t StddevStepCount " + stepCountStddev); 
@@ -82,10 +101,11 @@ public class StatisticsRunner {
 		System.out.println("\t MinConflictsInSolution " + minSolutionConflicts ); 
 		
 	}
+	
 	public void testSystem(){
 		for (ConstraintBasedLocalSearch solver: getSolvers()){
 			for (LocalStateManager sm: getProblems()){
-				testSolver(solver,sm);
+				testSolver(solver,sm,20);
 			}
 		}
 	}
