@@ -7,13 +7,13 @@ import StateManagers.KQueensManager;
 import StateManagers.LocalStateManager;
 import StateManagers.SudokuManager;
 public class StatisticsRunner {
-	public static final int maxRuns = 10;
+	public static final int maxRuns = 20;
 	
 	private LocalStateManager[] getProblems(){
 		LocalStateManager [] problems = new LocalStateManager[12];
 		problems[0] = new KQueensManager(8);
 		problems[1] = new KQueensManager(25);
-		problems[2] = new KQueensManager(100);
+		problems[2] = new KQueensManager(1000);
 		problems[3] = new GraphColorManager("graph-color-1.txt");
 		problems[4] = new GraphColorManager("graph-color-2.txt");
 		problems[5] = new GraphColorManager("graph-color-3.txt");
