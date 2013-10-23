@@ -147,7 +147,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
                      
      
              }
-             System.out.println("Steps: "+stepsToSolve+" Conflicts: "+(-currentScore));
+             print("Steps: "+stepsToSolve+" Conflicts: "+(-currentScore));
      } 
 
 

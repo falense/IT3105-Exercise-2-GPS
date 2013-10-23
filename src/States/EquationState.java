@@ -4,9 +4,10 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class EquationState extends AbstractState {
-	public int [][] amatrix;
-	public int [] bvector;
-	public int [] solution;
+	private int [][] amatrix;
+	private int [] bvector;
+	private int [] solution;
+	private int k;
 	
 	@Override
 	public LinkedList<Integer> getVars() {
@@ -40,7 +41,7 @@ public class EquationState extends AbstractState {
 	@Override
 	public LinkedList<Integer> getPossibleValues() {
 		LinkedList<Integer> r = new LinkedList<Integer>();
-		for (int i = -99; i < 100; i++){
+		for (int i = -50; i < 50; i++){
 			r.add(i);
 		}
 		return r;
@@ -96,6 +97,7 @@ public class EquationState extends AbstractState {
 	public EquationState(EquationState old) {
 		bvector = old.bvector;
 		amatrix = old.amatrix;
+		k = old.k;
 		solution = new int[old.solution.length];
 		for (int i = 0; i < old.solution.length; i++){
 			solution[i] = old.solution[i];
@@ -103,13 +105,14 @@ public class EquationState extends AbstractState {
 	}
 	
 	public EquationState(int k) {
+		this.k = k;
 		solution = new int[k];
 		amatrix = new int[k][k];
 		Random r = new Random();
 		for (int i = 0; i < k; i++){
-			solution[i] = r.nextInt(20) -10;
+			solution[i] = r.nextInt(100) -50;
 			for (int j = 0; j < k; j++){
-				amatrix[i][j] = r.nextInt(20)-10;
+				amatrix[i][j] = r.nextInt(100)-50;
 			}
 		}
 		bvector = multiply();
