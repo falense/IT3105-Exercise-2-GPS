@@ -28,6 +28,7 @@ import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 
 class Node{
 	private LinkedList<Node> neighbours = new LinkedList<Node>();
+	private LinkedList<Integer> neighboursIDList = new LinkedList<Integer>();
 	private int color;
 	private double x,y;
 	private int uniqueID;
@@ -91,11 +92,26 @@ class Node{
 		setPosition( r.x,r.y);
 		setColor(r.color);
 		for (Node n: r.neighbours){
-			neighbours.add(n);
+			neighboursIDList.add(n.uniqueID);
+			//neighbours.add(n);
 		}
 	}
 	public Node copy(){
 		return new Node(this);
+	}
+	public void updateLinks(Node[] nodeList) {
+		LinkedList<Node> newNeighbours = new LinkedList<Node>();
+		/*
+		for (Node n: neighbours){
+			int index = n.uniqueID;
+			if (nodeList[index].color != n.color){
+				System.err.println("Eror");
+			}
+		}*/
+		for (int n: neighboursIDList){
+			newNeighbours.add(nodeList[n]);
+		}
+		neighbours = newNeighbours;
 	}
 }
 class GUI{
@@ -242,7 +258,7 @@ public class GraphState extends AbstractState{
 					if (ycoord < minY){
 						minY = ycoord;
 					}
-					nodeList[nodeIndex] = new Node(row-1,xcoord,ycoord,new Random().nextInt(K));
+					nodeList[nodeIndex] = new Node(nodeIndex,xcoord,ycoord,new Random().nextInt(K));
 				}
 				else{
 					int nodeIndex1 = Integer.parseInt(substrings[0]);
@@ -269,6 +285,9 @@ public class GraphState extends AbstractState{
 		nodeList = new Node[old.nodeList.length];
 		for (int i = 0; i < old.nodeList.length; i++){
 			nodeList[i] = old.nodeList[i].copy();
+		}
+		for (int i = 0; i < old.nodeList.length; i++){
+			nodeList[i].updateLinks(nodeList);
 		}
 	}
 	

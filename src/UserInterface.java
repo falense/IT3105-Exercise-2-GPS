@@ -17,9 +17,9 @@ public class UserInterface {
 	private static BufferedReader br;
 	private static boolean debug = false;
 	private static boolean isProblem = false;
-	private static int numberNeighbours = 20;
-	private static int MaxTemprature = 10;
-	private static double DeltaTemprature = 0;
+	private static int numberNeighbours = 50;
+	private static int MaxTemprature = 100;
+	private static double DeltaTemprature = 1;
 	private static int maxRuns = 10000;
 	
 	

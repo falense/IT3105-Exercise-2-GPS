@@ -60,70 +60,50 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
              Temperature = MaxTemprature;
              currentScore = -sm.getState().getNumberOfConflicts();
              print("Current Score = " + (-currentScore));
-             //AbstractState currentState = manager.getState();
              
              while (stepsToSolve < maxRuns && currentScore < targetScore ){
-                     
-                     AbstractState tempState = null;
                      AbstractState bestState = null;
                      
                      ArrayList<AbstractState> newStates= new ArrayList<AbstractState>();
-                     double tempMaxScore = Double.MIN_VALUE;
-                     double tempScore = Double.MIN_VALUE;
+                     double maxScore = -Double.MAX_VALUE;
                      
                      for (int i = 0 ; i < numberNeighbours ; i++){
-                             tempState = sm.generateNeighbourState();
-                             newStates.add(tempState);
-                             tempScore = -tempState.getNumberOfConflicts();        
+                     		 AbstractState state = sm.generateNeighbourState();
+                             double score = -state.getNumberOfConflicts();    
                              
-                             //can the original state still be chosen? needs to be addressed maybe added...
-                             if (tempMaxScore==Double.MIN_VALUE || tempMaxScore < tempScore){
-                                     tempMaxScore = tempScore;
-                                     bestState = tempState;
-                                     
+                             if (maxScore < score){
+                                     maxScore = score;
+                                     bestState = state;
                              }
-                             
+                             newStates.add(state);    
                      }
                      
-                     print("Best Neighbour Score = " + (-tempMaxScore));
+                     print("Best Neighbour Score = " + (-maxScore));
                      
-                     
-                     
-                     double q = (tempMaxScore-currentScore)/(-currentScore);
-                     
-                     //System.out.println("Value for q = " +q);
-                     
-                     
+                     double q = Math.abs(currentScore-maxScore)/(-currentScore);
+                     print("Value for q = " +q);
                      
                      double exponent = (-q/Temperature);
-                     //System.out.println("Value for exponent = " +exponent);
+                     print("Value for exponent = " +exponent);
                      
-                     //if ()
-                     double p = Math.min(1, 
-                                                                     Math.pow(Math.E, exponent        ));                                
+                     double p = Math.min(1, Math.pow(Math.E, exponent));                                
                                                                                      
-                     double x = Math.random();                                                
-                     //this might not be allowed:
-                     if(tempMaxScore==targetScore)
-                             x=2;
-                     
-                     
+                     double x = Math.random();            
                      
                      print("Weighted difference: "+q);
                      print("Current Temperature: " + Temperature);
                      print("Exponent: "+exponent);
                      
-                     if ( x > p ){
+                     if (x > p ){
                              sm.setState(bestState);
                              print("Random value: "+x+" > " +p+ "  -->  Exploit!");
                      } else {
-                             sm.setState(newStates.get(new Random().nextInt(numberNeighbours)));
-                             print("Random value: "+x+" < " +p+ "  -->  Explore!");
+                    	 	 AbstractState state = newStates.get(new Random().nextInt(newStates.size()));
+                             sm.setState(state);
+                             print("Random value: "+x+" < " +p+ "  -->  Explore (" + state.getNumberOfConflicts() + ")!");
                      }
                      
                      print("");
-                     
-                     
                      
                      //temperature:
                      if (linear){
@@ -135,17 +115,10 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
                              Temperature = Math.max(Temperature*(DeltaTemperature), 0.0000001);
                      }
                      
-                     
-                     
-                     
-                     
-                     
                      stepsToSolve++;
                      currentScore = -sm.getState().getNumberOfConflicts();
                      print("Round number: " +stepsToSolve);
                      print("Current conflicts: " + (-currentScore));
-                     
-     
              }
              print("Steps: "+stepsToSolve+" Conflicts: "+(-currentScore));
      } 

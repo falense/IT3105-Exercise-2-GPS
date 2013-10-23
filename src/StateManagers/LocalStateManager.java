@@ -16,7 +16,7 @@ public abstract class LocalStateManager {
 		LinkedList<Integer> variables = newState.getVars();
 		LinkedList<Integer> values = newState.getPossibleValues();
 	
-		int var = variables.get(new Random().nextInt(variables.size()));
+		int var = getConflictedVariable();//variables.get(new Random().nextInt(variables.size()));
 		int value = values.get(new Random().nextInt(values.size()));	
 		newState.setValue(var, value);
 		return newState;
