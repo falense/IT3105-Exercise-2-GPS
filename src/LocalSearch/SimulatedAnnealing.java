@@ -39,14 +39,12 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
 		super(debug);
 		double temp;
 		if (linear){
-			temp = MaxTemprature/(1.0*maxRuns);
+			temp = MaxTemprature/((double)maxRuns);
 		} else {
-			double MR = 0.1 / (1.0*maxRuns);
-			double MT = Math.log(1/MaxTemprature);
+			double MR = 0.1 / ((double)maxRuns);
+			double MT = Math.log(1.0/MaxTemprature);
 			temp = Math.pow(Math.E,MR*MT);
 			System.out.println("deltaTemp is : " +temp);
-			
-			
 		}
 		this.DeltaTemperature = temp;
 		this.numberNeighbours = numberNeighbours;
@@ -80,7 +78,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
                      
                      print("Best Neighbour Score = " + (-maxScore));
                      
-                     double q = Math.abs(currentScore-maxScore)/(-currentScore);
+                     double q = (maxScore-currentScore)/(-currentScore);
                      print("Value for q = " +q);
                      
                      double exponent = (-q/Temperature);
@@ -94,7 +92,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch{
                      print("Current Temperature: " + Temperature);
                      print("Exponent: "+exponent);
                      
-                     if (x > p ){
+                     if (maxScore >= currentScore && x > p ){
                              sm.setState(bestState);
                              print("Random value: "+x+" > " +p+ "  -->  Exploit!");
                      } else {

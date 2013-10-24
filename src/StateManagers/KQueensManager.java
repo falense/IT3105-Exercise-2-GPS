@@ -12,11 +12,6 @@ public class KQueensManager extends LocalStateManager {
 		this.size = size;
 	}
 	
-	//max conflics - conflicts, more or less.
-	public double evaluate(AbstractState state){
-		int size = state.getVars().size(); 	
-		return (size*size)-state.getNumberOfConflicts();
-	}
 	
 	@Override
 	public String getName() {

@@ -18,8 +18,8 @@ public class UserInterface {
 	private static boolean debug = false;
 	private static boolean isProblem = false;
 	private static int numberNeighbours = 50;
-	private static int MaxTemprature = 100;
-	private static double DeltaTemprature = 1;
+	private static int MaxTemprature = 20;
+	private static double DeltaTemprature = 0.02;
 	private static int maxRuns = 10000;
 	
 	//(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug, int maxRuns, boolean linear)
@@ -106,6 +106,7 @@ public class UserInterface {
 				e.printStackTrace();
 			}
 			isProblem = true;
+			
 			return new GraphColorManager("graph-color-"+sIn+".txt");
 		case 2:
 			System.out.println("Enter the size of the board:");

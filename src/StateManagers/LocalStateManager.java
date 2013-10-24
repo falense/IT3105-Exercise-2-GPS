@@ -13,7 +13,7 @@ public abstract class LocalStateManager {
 	public AbstractState generateNeighbourState(){
 		AbstractState newState = state.copy();
 		
-		LinkedList<Integer> variables = newState.getVars();
+		//LinkedList<Integer> variables = newState.getVars();
 		LinkedList<Integer> values = newState.getPossibleValues();
 	
 		int var = getConflictedVariable();//variables.get(new Random().nextInt(variables.size()));
@@ -26,16 +26,25 @@ public abstract class LocalStateManager {
 		this.state = state;
 	}
 	public int getConflictedVariable() {
+		LinkedList<Integer> vars = state.getVars();
+		while(true){
+			int rindex = new Random().nextInt(vars.size());
+			if(state.isInvolvedInConflict(vars.get(rindex))){
+				return vars.get(rindex);
+			}
+		}	
+		/*
+
 		LinkedList<Integer> conflicted = new LinkedList<Integer>();
-		for (Integer var: state.getVars()){
+		for (int var: state.getVars()){
 			if(state.isInvolvedInConflict(var)){
 				conflicted.add(var);
 			}
 		}
-		int rindex = new Random().nextInt(conflicted.size());		
-		return conflicted.get(rindex);
+		int rindex = new Random().nextInt(conflicted.size());
+		return conflicted.get(rindex);*/
 	}
-	public void optimizeConflictedVariable(int var) {
+	/*public void optimizeConflictedVariable(int var) {
 		int minConflicts = Integer.MAX_VALUE;
 		LinkedList<Integer> minConfValues = new LinkedList<Integer>();
 		for (Integer value: state.getPossibleValues()){
@@ -51,7 +60,7 @@ public abstract class LocalStateManager {
 		int rindex = new Random().nextInt(minConfValues.size());	
 		
 		state.setValue(var, minConfValues.get(rindex));
-	}
+	}*/
 	
 	public void setState(AbstractState state) {
 		if (state == null){

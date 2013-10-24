@@ -21,7 +21,7 @@ public class StatisticsRunner {
 		LocalStateManager [] problems = new LocalStateManager[12];
 		problems[0] = new KQueensManager(8);
 		problems[1] = new KQueensManager(25);
-		problems[2] = new KQueensManager(1000);
+		problems[2] = new KQueensManager(100);
 		problems[3] = new GraphColorManager("graph-color-1.txt");
 		problems[4] = new GraphColorManager("graph-color-2.txt");
 		problems[5] = new GraphColorManager("graph-color-3.txt");
@@ -29,14 +29,15 @@ public class StatisticsRunner {
 		problems[7] = new SudokuManager("sudoku2.txt");
 		problems[8] = new SudokuManager("sudoku3.txt"); 
 		problems[9] = new EquationManager(10); 
-		problems[10] = new EquationManager(50);
-		problems[11] = new EquationManager(100); 
+		problems[10] = new EquationManager(25);
+		problems[11] = new EquationManager(50); 
 		return problems;
 	}
 	private ConstraintBasedLocalSearch[] getSolvers(){
 		ConstraintBasedLocalSearch [] solvers = new ConstraintBasedLocalSearch[2];
-		solvers[0] = new MinConflicts(false);
-		solvers[1] = new SimulatedAnnealing(20,10,0,false, 10000, true);
+		//public SimulatedAnnealing(int numberNeighbours,double MaxTemprature, double DeltaTemprature, double targetScore,boolean debug, int maxRuns, boolean linear){
+		solvers[0] = new SimulatedAnnealing(50,20,0.02,0,false,10000,true);
+		solvers[1] = new MinConflicts(false);
 		return solvers;
 	}
 	public void testSolver(ConstraintBasedLocalSearch solver, LocalStateManager sm, int runs){

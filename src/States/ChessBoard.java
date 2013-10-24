@@ -38,7 +38,7 @@ public class ChessBoard extends AbstractState  {
 		}
 	}
 	
-	public void printQueens(){
+	private void printQueens(){
 		for (int i = 0 ; i < queens.length ; i++){
 			System.out.println("Y: " +queens[i][0] + " X: " + queens[i][1] + " Diff " + queens[i][2] + " Sum " + queens[i][3]);
 		}
@@ -51,7 +51,7 @@ public class ChessBoard extends AbstractState  {
 		queens[var][3] = queens[var][0] + queens[var][1];
 	}
 	
-	public int getSize(){
+	private int getSize(){
 		return queens.length;
 	}
 	
@@ -143,14 +143,22 @@ public class ChessBoard extends AbstractState  {
 
 	@Override
 	public void display() {
-		new GUI(this);	
+		if (getSize() <= 100)
+			new GUI(this);	
 	}
 	
 	class GUI{
 		private JFrame frame;
 		private JPanel boardPanel;
-		
+		private BufferedImage queen;
+		private BufferedImage notQueen;
 		public GUI(final ChessBoard s) {
+	    	try {		
+	    		queen = ImageIO.read(new File("./Resources/queen.png"));
+	    		notQueen = ImageIO.read(new File("./Resources/notqueen.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	    	drawBoard(s);
 	    }
 		private void drawBoard(final ChessBoard s){
@@ -172,22 +180,17 @@ public class ChessBoard extends AbstractState  {
 	        frame.setVisible(true);
 			
 		}
-		public void updatePiece(boolean i, int x, int y, int size){
+		private void updatePiece(boolean isQueen, int x, int y, int size){
 			JLabel t = (JLabel) boardPanel.getComponent(x+y*size);
-				try {		
-					BufferedImage b;
-					
-					if (i)
-						b = ImageIO.read(new File("./Resources/queen.png"));
-					else
-						b = ImageIO.read(new File("./Resources/notqueen.png"));
-					
-					ImageIcon j = new ImageIcon(b);
-					t.setIcon(j);
-				} catch (IOException e) {
-					e.printStackTrace();
-				
-			}
+			BufferedImage b;
+			
+			if (isQueen)
+				b = queen;
+			else
+				b = notQueen;
+			
+			ImageIcon j = new ImageIcon(b);
+			t.setIcon(j);
 		}
 		
 		public void updateBoard(ChessBoard s){
@@ -196,5 +199,6 @@ public class ChessBoard extends AbstractState  {
 						updatePiece((getValue(i)==j),i,j,s.getSize());
 		}
 	}
+
 
 }

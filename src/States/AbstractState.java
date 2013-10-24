@@ -10,6 +10,9 @@ public abstract class AbstractState {
 	public abstract void setValue(int var, int value);
 	public abstract void display();
 	public abstract AbstractState copy();
+	public int evaluate(){
+		return -getNumberOfConflicts();
+	}
 
 	public boolean isInvolvedInConflict(int var){
 		if (getNumberOfConflicts(var) > 0)

@@ -29,13 +29,13 @@ public class Sudoku extends AbstractState{
 		}
 	}
 	
-	public void printList(LinkedList<Integer> list){
+	private void printList(LinkedList<Integer> list){
 		for (int i : list){
 			System.out.print(i+" ");
 		}
 	}
 	
-	public void printList(int[] list){
+	private void printList(int[] list){
 		for (int i : list){
 			System.out.print(i+" ");
 		}
@@ -210,5 +210,6 @@ public class Sudoku extends AbstractState{
 	public AbstractState copy() {
 		return new Sudoku(this);
 	}
+
 
 }

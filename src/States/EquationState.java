@@ -94,6 +94,7 @@ public class EquationState extends AbstractState {
 		}
 		return res;
 	}
+	
 	public EquationState(EquationState old) {
 		bvector = old.bvector;
 		amatrix = old.amatrix;
@@ -125,6 +126,18 @@ public class EquationState extends AbstractState {
 	@Override
 	public AbstractState copy() {
 		return new EquationState(this);
+	}
+
+	@Override
+	public int evaluate() {
+		int res = 0;
+		int []vector = multiply();
+		for (int i = 0; i < vector.length; i++){
+			int t = vector[i] - bvector[i];
+			if (t * t > 0) 
+				res+= t*t;
+		}
+		return (int)((double)res/vector.length);
 	}
 
 }
